@@ -1,0 +1,33 @@
+{
+    "name": "sitepage",
+    "version": "1.0.0",
+    "description": "Design your own Site using JSON and template View",
+    "private": true,
+    "scripts": {
+        "start": "grunt"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/pixelbyaj/SitePage.git"
+    },
+    "keywords": [
+        "Design Site",
+        "Dynamic Site"
+    ],
+    "author": "PixelByAJ",
+    "license": "Apache-2.0",
+    "bugs": {
+        "url": "https://github.com/pixelbyaj/SitePage/issues"
+    },
+    "homepage": "https://github.com/pixelbyaj/SitePage#readme",
+    "devDependencies": {
+        "grunt": "^1.0.4",
+        "grunt-contrib-concat": "^1.0.1",
+        "grunt-contrib-cssmin": "^3.0.0",
+        "grunt-contrib-jshint": "^2.1.0",
+        "grunt-contrib-nodeunit": "^2.1.0",
+        "grunt-contrib-uglify": "^4.0.1",
+        "grunt-ts": "^6.0.0-beta.22",
+        "typescript": "^3.7.5"
+    }
+}
