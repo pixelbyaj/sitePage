@@ -1,7 +1,7 @@
 {
     "name": "sitepage",
     "version": "1.0.0",
-    "description": "Design your own Site using JSON and template View",
+    "description": "Design the site using JSON and template View",
     "private": true,
     "scripts": {
         "start": "grunt"
