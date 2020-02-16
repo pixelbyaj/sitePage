@@ -106,6 +106,11 @@ new SitePage("sitePage", {
                 anchor: "Examples",
                 templateUrl: "./views/examples.html",
                 backgroundColor: "#1bbc9b"
+            },
+            {
+                anchor: "Contact Us",
+                template: "<h1>Contact Us</h1>",
+                backgroundColor: "#1bbc9b"
             }
         ],
         //navigation
