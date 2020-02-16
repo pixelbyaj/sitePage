@@ -369,6 +369,10 @@ class SitePage {
                 if (_options.pageTransitionStart instanceof Function) {
                     _options.pageTransitionStart(section, _activeSection);
                 }
+                let prevId = section?.getAttribute("data-anchor");
+                let id = _activeSection?.getAttribute("data-anchor");
+                $.querySelector(".nav-link[href='#" + prevId + "']")?.classList.remove("active");
+                $.querySelector(".nav-link[href='#" + id + "']")?.classList.add("active");
             },
             transitionEnd: (e: any) => {
                 _activeSection?.classList.add("active");
@@ -456,6 +460,8 @@ class SitePage {
                     }
                 }
                 scrollEvents.scrollToSection(activeId, scrollWay);
+                let id = _activeSection?.getAttribute("data-anchor");
+                $.querySelector(".nav-link[href='#" + activeId + "']")?.classList.add("active");
                 utilityMethod.addEventListeners($e);
             },
             addEventListeners: ($element: HTMLElement) => {
