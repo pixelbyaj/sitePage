@@ -4,4 +4,4 @@ demo/
 node_modules/
 .vscode/
 tsconfig.json
-Gruntfile.json
+Gruntfile.js
