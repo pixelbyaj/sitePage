@@ -1,6 +1,6 @@
 {
     "name": "@pixelbyaj/sitepage",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "description": "Design the site using JSON and template View",
     "public": true,
     "scripts": {
