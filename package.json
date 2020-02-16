@@ -1,18 +1,22 @@
 {
-    "name": "sitepage",
-    "version": "1.0.0",
+    "name": "@pixelbyaj/sitepage",
+    "version": "1.0.2",
     "description": "Design the site using JSON and template View",
-    "private": true,
+    "public": true,
     "scripts": {
-        "start": "grunt"
+        "start": "grunt",
+        "deploy": "npm publish --access=public"
     },
     "repository": {
         "type": "git",
         "url": "git+https://github.com/pixelbyaj/SitePage.git"
     },
     "keywords": [
-        "Design Site",
-        "Dynamic Site"
+        "website-builder",
+        "website-design",
+        "website-generation",
+        "website-theme",
+        "javascript"
     ],
     "author": "Abhishek Joshi",
     "license": "Apache-2.0",
