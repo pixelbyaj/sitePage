@@ -24,11 +24,14 @@ class SitePage {
         }
 
         let _options: any = {
+            brandName: "SitePage",
+            backgroundColor: "#fc6c7c",
+            anchors: true,
             sections: [],
             navigation: "vertical",
             autoScrolling: true,
             scrollbar: false,
-            scrollingSpeed: 1000,
+            transitionSpeed: 1000,
             easing: "ease",
             sameurl: true,
             keyboardNavigation: true,
@@ -59,6 +62,7 @@ class SitePage {
             setInitialStyle: () => {
                 $e.style.transform = `translate3d(0px, 0px, 0px)`;
                 $e.classList.add("sp-wrapper");
+                $.querySelector("body").style.backgroundColor = _options.backgroundColor;
             },
             setSectionClass: (element: any) => {
                 element.classList.add("sp-section");
@@ -87,9 +91,6 @@ class SitePage {
             setBackgroundCssClass: (element: any, cssClass: any) => {
                 element.classList.add(cssClass);
             },
-            setBackgroundImageUrl: (element: any, imageUrl: any) => {
-                element.style.imageUrl(imageUrl);
-            },
             getBrandName: (classList: string[], brandName: string): HTMLElement => {
 
 
@@ -107,7 +108,14 @@ class SitePage {
 
                 let navA = $.createElement("a");
                 navA.classList.add(...classList);
-                navA.setAttribute("href", "#" + anchorId);
+                navA.removeEventListener("click", eventListners.navigationClick);
+                if (_options.sameurl) {
+                    navA.setAttribute("href", "javascript:void(0)");
+                    navA.setAttribute("data-href", anchorId);
+                    navA.addEventListener("click", eventListners.navigationClick);
+                } else {
+                    navA.setAttribute("href", "#" + anchorId);
+                }
 
                 let textNode = $.createTextNode(anchor);
                 navA.appendChild(textNode);
@@ -128,8 +136,6 @@ class SitePage {
                 let navDiv = $.createElement("div");
                 navDiv.setAttribute("id", "navbarNav");
                 navDiv.classList.add("navbar-nav-scroll");
-
-
 
                 let navUl = $.createElement("ul");
                 let navUlClass = ["navbar-nav", "bd-navbar-nav", "flex-row"]
@@ -156,6 +162,20 @@ class SitePage {
                 htmlUtility.setSectionClass(sectionDiv);
                 htmlUtility.setSectionHeight(sectionDiv);
                 return sectionDiv;
+            },
+            fetchView: () => {
+                let spInclude = _activeSection.querySelector("sp-include");
+                if (spInclude) {
+                    let url: any = spInclude.getAttribute("url");
+                    fetch(url)
+                        .then((response) => {
+                            return response.text();
+                        })
+                        .then((text) => {
+                            let spCell: any = _activeSection.querySelector(".sp-cell");
+                            spCell.innerHTML = text;
+                        });
+                }
             }
         }
         //#endregion
@@ -232,20 +252,8 @@ class SitePage {
                 _activePageIndex = _sectionIds.indexOf(sectionId);
 
                 if (_activeSection) {
-                    let spInclude = _activeSection.querySelector("sp-include");
-                    if (spInclude) {
-                        let url: any = spInclude.getAttribute("url");
-                        fetch(url)
-                            .then((response) => {
-                                return response.text();
-                            })
-                            .then((text) => {
-                                let spCell: any = _activeSection.querySelector(".sp-cell");
-                                spCell.innerHTML = text;
-                            });
-                    }
-                    $e.style.transition = `all ${_options.scrollingSpeed}ms ${_options.easing} 0s`;
-
+                    htmlUtility.fetchView();
+                    $e.style.transition = `all ${_options.transitionSpeed}ms ${_options.easing} 0s`;
                     switch (ScrollWay) {
                         case Scroll.Horizontal:
                             pageIndex = _activePageIndex * window.innerWidth;
@@ -363,35 +371,39 @@ class SitePage {
                 }
             },
             transitionEnd: (e: any) => {
-                _activeSection.classList.add("active");
+                _activeSection?.classList.add("active");
                 canScroll = true;
                 if (_options.pageTransitionEnd instanceof Function) {
                     _options.pageTransitionEnd(_activeSection);
                 }
             },
-            swipeUp:()=>{
+            swipeUp: () => {
                 if (canScroll) {
                     canScroll = false;
                     scrollEvents.scrollPageDown();
                 }
             },
-            swipeDown:()=>{
+            swipeDown: () => {
                 if (canScroll) {
                     canScroll = false;
                     scrollEvents.scrollPageUp();
                 }
             },
-            swipeLeft:()=>{
+            swipeLeft: () => {
                 if (canScroll) {
                     canScroll = false;
                     scrollEvents.scrollPageRight();
                 }
             },
-            swipeRight:()=>{
+            swipeRight: () => {
                 if (canScroll) {
                     canScroll = false;
                     scrollEvents.scrollPageLeft();
                 }
+            },
+            navigationClick: (e: MouseEvent) => {
+                var sectionId = (e.target as HTMLElement).getAttribute("data-href");
+                scrollEvents.scrollToSection(sectionId, scrollWay);
             }
         }
         //#endregion
@@ -402,9 +414,10 @@ class SitePage {
                 htmlUtility.setInitialStyle();
                 let navUl: any = htmlUtility.setNavigationMenu();
 
+                //Iterate Sections
                 _options.sections.forEach((section: any, index: number) => {
                     let anchorId = "page" + (index + 1);
-                    
+
                     let sectionEle = htmlUtility.setSection(section, index + 1);
                     sectionEle.setAttribute("data-anchor", anchorId);
                     const cellEle = htmlUtility.getCellElement();
@@ -413,15 +426,15 @@ class SitePage {
                     sectionEle.appendChild(cellEle);
                     $e.appendChild(sectionEle);
                     _sectionIds.push(anchorId);
-
-                    //navigation
-                    let navLi = htmlUtility.getNavigationLink(["nav-link", "text-nowrap"], section.anchor, anchorId);
-                    navUl.appendChild(navLi);
-
+                    if (_options.anchors) {
+                        //navigation
+                        let navLi = htmlUtility.getNavigationLink(["nav-link", "text-nowrap"], section.anchor, anchorId);
+                        navUl.appendChild(navLi);
+                    }
                     if (section.backgroundColor) {
                         htmlUtility.setBackgroundColor(sectionEle, section.backgroundColor);
                     } else if (section.backgroundCssClass) {
-                        htmlUtility.setBackgroundCssClass(sectionEle, _options.backgroundCssClass);
+                        htmlUtility.setBackgroundCssClass(sectionEle, section.backgroundCssClass);
                     }
                 });
 

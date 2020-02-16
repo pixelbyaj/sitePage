@@ -1,0 +1,86 @@
+h1 {
+    padding: 0;
+    font-weight: 900;
+}
+
+a {
+    color: #fff;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+
+/* Small devices (landscape phones, 576px and up) */
+
+@media (min-width: 400px) {
+    h1 {
+        font-size: 4em;
+    }
+    h2 {
+        color: rgba(255, 255, 255, .7);
+        font-size: 1rem !important;
+        font-weight: 100;
+        margin: -10px 30px 10px;
+    }
+}
+
+@media (min-width: 576px) {
+    h1 {
+        font-size: 4em;
+    }
+    h2 {
+        color: rgba(255, 255, 255, .7);
+        font-size: 1.2rem !important;
+        font-weight: 100;
+        margin: -10px 30px 10px;
+    }
+}
+
+
+/* Medium devices (tablets, 768px and up) */
+
+@media (min-width: 768px) {
+    h1 {
+        font-size: 4em;
+    }
+    h2 {
+        color: rgba(255, 255, 255, .7);
+        font-size: 1.2rem !important;
+        font-weight: 100;
+        margin: -10px 30px 10px;
+    }
+}
+
+
+/* Large devices (desktops, 992px and up) */
+
+@media (min-width: 992px) {
+    h1 {
+        font-size: 8em;
+    }
+    h2 {
+        color: rgba(255, 255, 255, .7);
+        font-size: 1.5em !important;
+        font-weight: 100;
+        margin: -10px 30px 10px;
+    }
+}
+
+
+/* Extra large devices (large desktops, 1200px and up) */
+
+@media (min-width: 1200px) {
+    h1 {
+        font-size: 8em;
+    }
+    h2 {
+        color: rgba(255, 255, 255, .7);
+        font-size: 1.5em !important;
+        font-weight: 100;
+        margin: -10px 30px 10px;
+    }
+}
