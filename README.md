@@ -74,7 +74,7 @@ The active section by default will be the first section, which is taken as the h
 
 Sections will get placed inside a wrapper (`<div id="sitepage">` in this case). The wrapper can not be the `body` element.
 ```html
-<div id="sitepage">
+<div id="sitePage">
 	
 </div>
 ```
