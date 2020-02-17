@@ -1,6 +1,6 @@
 {
     "name": "sitepage.js",
-    "version": "1.0.9",
+    "version": "2.0.0",
     "description": "Design the site using JSON and template View",
     "public": true,
     "scripts": {
