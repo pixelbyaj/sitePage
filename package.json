@@ -1,6 +1,6 @@
 {
-    "name": "sitepage",
-    "version": "1.0.0",
+    "name": "sitepage.js",
+    "version": "1.0.2",
     "description": "Design the site using JSON and template View",
     "public": true,
     "scripts": {
@@ -19,7 +19,7 @@
         "javascript"
     ],
     "author": "Abhishek Joshi",
-    "license": "Apache-2.0",
+    "license": "MIT",
     "bugs": {
         "url": "https://github.com/pixelbyaj/SitePage/issues"
     },

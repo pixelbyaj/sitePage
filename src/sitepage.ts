@@ -1,10 +1,10 @@
 
 /*!
- * sitePage.js - v1.0.0
+ * sitePage.js - v1.0.2
  * Pure JavaScript Site Page
  * https://github.com/pixelbyaj/SitePage
  * @author Abhishek Joshi
- * @license GNU GENERAL PUBLIC LICENSE v3.0
+ * @license MIT
  */
 class SitePage {
     constructor(id: string, options: any) {
