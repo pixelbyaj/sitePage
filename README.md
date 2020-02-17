@@ -38,6 +38,7 @@ If you are creating an open source application under a license compatible with t
 ## Usage
 As you can see in the example files, you will need to include:
  - The JavaScript file `sitepage` (or its minified version `sitepage.min.js`)
+ - The css file `https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css`
  - The css file `sitepage.min.css`
 
 ### Install using bower or npm
@@ -84,7 +85,7 @@ All you need to do is call sitepage before the closing `</body>` tag.
 new SitePage("sitePage", {
         //brandname
         brandName: "",
-        backgroundColor:"#45b4f5",
+        backgroundColor:"#45b4f5",	
         //sections
         sections: [{
                 anchor: "Home",
@@ -108,14 +109,15 @@ new SitePage("sitePage", {
             }
         ],
         //navigation
-        navigation: navigation,
-        sameurl: sameurl,
+	anchors:true,//true|false
+        navigation: navigation,//horizontal|vertical
+        sameurl: sameurl,//true|false
         //transition
-        easing: "ease",
-        transitionSpeed: 1000,
+        easing: "ease",//ease|ease-in|ease-out|ease-in-out
+        transitionSpeed: 1000,//speed in ms
         //scrolling
-        autoScrolling: autoscrolling,
-        keyboardNavigation: true,
+        autoScrolling: autoscrolling,//true|false
+        keyboardNavigation: true,//true|false
         //callback events
         pageTransitionStart: (prevPage, currentPage) => {
             console.log(`prevPage: ${prevPage ? prevPage.id : ""} currentPage :${currentPage.id}`);
