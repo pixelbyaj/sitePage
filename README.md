@@ -6,7 +6,7 @@
 
 
 A simple and easy to use library that creates single page scrolling websites with horizontal or vertical scrolling.
-
+- [DEMO](http://pixelbyaj.github.io/sitepage)
 - [Introduction](https://github.com/pixelbyaj/sitepage#introduction)
 - [Compatibility](https://github.com/pixelbyaj/sitepage#compatibility)
 - [License](https://github.com/pixelbyaj/sitepage#license)
