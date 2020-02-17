@@ -13,7 +13,7 @@ A simple and easy to use library that creates single page scrolling websites wit
 - [Options](https://github.com/pixelbyaj/sitepage#options)
 - [Callbacks](https://github.com/pixelbyaj/sitepage#callbacks)
 - [Reporting issues](https://github.com/pixelbyaj/sitepage#reporting-issues)
-- [Contributing to sitepage](https://github.com/pixelbyaj/sitepage#contributing-to-fullpagejs)
+- [Contributing to sitepage](https://github.com/pixelbyaj/sitepage#contributing-to-sitepagejs)
 - [Changelog](https://github.com/pixelbyaj/sitepage#changelog)
 - [Build tasks](https://github.com/pixelbyaj/sitepage#build-tasks)
 - [Resources](https://github.com/pixelbyaj/sitepage#resources)
