@@ -1,5 +1,5 @@
 # sitePage.js
-![sitePage.js version](http://img.shields.io/badge/sitePage.js-v1.0.0-brightgreen.svg)
+![sitePage.js version](http://img.shields.io/badge/sitePage.js-v1.0.8-brightgreen.svg)
 [![License](https://img.shields.io/badge/License-GPL-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.html)
 [![PayPal Donate](https://img.shields.io/badge/donate-PayPal.me-ff69b4.svg)](https://www.paypal.me/pixelbyaj)
 [![jsDelivr Hits](https://data.jsdelivr.com/v1/package/npm/sitepage.js/badge?style=rounded)](https://www.jsdelivr.com/package/npm/sitepage.js)
