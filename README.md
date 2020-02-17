@@ -113,7 +113,7 @@ new SitePage("sitePage", {
         navigation: navigation,//horizontal|vertical
         sameurl: sameurl,//true|false
         //transition
-        easing: "ease",//ease|ease-in|ease-out|ease-in-out
+        easing: "ease",//ease|ease-in|ease-out|ease-in-out|cubic-bezier(n,n,n,n)
         transitionSpeed: 1000,//speed in ms
         //scrolling
         autoScrolling: autoscrolling,//true|false
