@@ -1,9 +1,9 @@
 # sitePage.js
 ![sitePage.js version](http://img.shields.io/badge/sitePage.js-v1.0.8-brightgreen.svg)
-[![License](https://img.shields.io/badge/License-GPL-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.html)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://mit-license.org/)
 [![PayPal Donate](https://img.shields.io/badge/donate-PayPal.me-ff69b4.svg)](https://www.paypal.me/pixelbyaj)
 [![jsDelivr Hits](https://data.jsdelivr.com/v1/package/npm/sitepage.js/badge?style=rounded)](https://www.jsdelivr.com/package/npm/sitepage.js)
-&nbsp;&nbsp; **|**&nbsp;&nbsp; *7Kb gziped* &nbsp;&nbsp;**|**&nbsp;&nbsp; *Created by [@imac2](https://twitter.com/imac2)*
+
 
 A simple and easy to use library that creates single page scrolling websites with horizontal or vertical scrolling.
 
@@ -54,6 +54,7 @@ npm install sitepage.js
 
 ### Including files:
 ```html
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <link rel="stylesheet" type="text/css" href="sitepage.min.css" />
 
 <script type="text/javascript" src="sitepage.min.js"></script>
