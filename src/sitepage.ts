@@ -396,13 +396,13 @@ class SitePage {
             swipeLeft: () => {
                 if (canScroll) {
                     canScroll = false;
-                    scrollEvents.scrollPageRight();
+                    scrollEvents.scrollPageLeft();
                 }
             },
             swipeRight: () => {
                 if (canScroll) {
                     canScroll = false;
-                    scrollEvents.scrollPageLeft();
+                    scrollEvents.scrollPageRight();
                 }
             },
             navigationClick: (e: MouseEvent) => {
@@ -485,7 +485,7 @@ class SitePage {
 
                 if (scrollWay == Scroll.Horizontal) {
                     document.addEventListener('swiped-left', eventListners.swipeLeft);
-                    document.addEventListener('swiped-right', eventListners.swipeLeft);
+                    document.addEventListener('swiped-right', eventListners.swipeRight);
                 } else {
                     document.addEventListener('swiped-up', eventListners.swipeUp);
                     document.addEventListener('swiped-down', eventListners.swipeDown);
