@@ -10,13 +10,6 @@ A simple and easy to use library that creates single page scrolling websites wit
 - [Introduction](https://github.com/pixelbyaj/sitepage#introduction)
 - [Compatibility](https://github.com/pixelbyaj/sitepage#compatibility)
 - [License](https://github.com/pixelbyaj/sitepage#license)
-- [Usage](https://github.com/pixelbyaj/sitepage#usage)
-  - [Creating links to sections or slides](https://github.com/pixelbyaj/sitepage#creating-links-to-sections-or-slides)
-  - [Creating smaller or bigger sections](https://github.com/pixelbyaj/sitepage#creating-smaller-or-bigger-sections)
-  - [State classes added by sitepage](https://github.com/pixelbyaj/sitepage#state-classes-added-by-fullpagejs)
-  - [Lazy loading](https://github.com/pixelbyaj/sitepage#lazy-loading)
-  - [Auto play/pause embedded media](https://github.com/pixelbyaj/sitepage#auto-playpause-embedded-media)
-  - [Use extensions](https://github.com/pixelbyaj/sitepage#use-extensions)
 - [Options](https://github.com/pixelbyaj/sitepage#options)
 - [Callbacks](https://github.com/pixelbyaj/sitepage#callbacks)
 - [Reporting issues](https://github.com/pixelbyaj/sitepage#reporting-issues)
@@ -38,7 +31,7 @@ It also provides touch support for mobile phones, tablets and touch screen compu
 ## License
 
 ### Open source license
-If you are creating an open source application under a license compatible with the [GNU GPL license v3](https://www.gnu.org/licenses/gpl-3.0.html), you may use sitePage under the terms of the GPLv3.
+If you are creating an open source application under a license compatible with the [MIT](https://mit-license.org/), you may use sitePage under the terms of the MIT.
 
 **The credit comments in the JavaScript and CSS files should be kept intact** (even after combination or minification)
 
