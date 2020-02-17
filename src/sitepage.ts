@@ -1,6 +1,6 @@
 
 /*!
- * sitePage.js - v1.0.2
+ * sitePage.js - v1.0.9
  * Pure JavaScript Site Page
  * https://github.com/pixelbyaj/SitePage
  * @author Abhishek Joshi
