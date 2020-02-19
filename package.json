@@ -1,5 +1,6 @@
 {
     "name": "sitepage.js",
+    "buildName": "sitepage",
     "version": "2.0.0",
     "description": "Design the site using JSON and template View",
     "public": true,
@@ -26,6 +27,7 @@
     "homepage": "https://github.com/pixelbyaj/SitePage#readme",
     "devDependencies": {
         "grunt": "^1.0.4",
+        "grunt-contrib-clean": "^2.0.0",
         "grunt-contrib-concat": "^1.0.1",
         "grunt-contrib-cssmin": "^3.0.0",
         "grunt-contrib-jshint": "^2.1.0",

@@ -33,10 +33,14 @@ document.ready(function() {
     new SitePage("sitePage", {
         brandName: "PixelByAJ",
         backgroundColor: "",
+        verticalAlignMiddle: true, //true||false
         sections: [{
                 anchor: "Home",
+                //anchorClass: [],
                 templateUrl: "./views/home.html",
-                backgroundColor: "#ff5f45"
+                backgroundColor: "#ff5f45",
+                verticalAlignMiddle: true, //true||false
+                sectionClass: ['text-right']
             },
             {
                 anchor: "Skills",

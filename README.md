@@ -1,5 +1,5 @@
 # sitePage.js
-![sitePage.js version](http://img.shields.io/badge/sitePage.js-v2.0.0-brightgreen.svg)
+![sitePage.js version](https://img.shields.io/npm/v/sitepage.js/latest)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://mit-license.org/)
 [![PayPal Donate](https://img.shields.io/badge/donate-PayPal.me-ff69b4.svg)](https://www.paypal.me/pixelbyaj)
 [![jsDelivr Hits](https://data.jsdelivr.com/v1/package/npm/sitepage.js/badge?style=rounded)](https://www.jsdelivr.com/package/npm/sitepage.js)
@@ -10,12 +10,11 @@ A simple and easy to use library that creates single page scrolling websites wit
 - [Introduction](https://github.com/pixelbyaj/sitepage#introduction)
 - [Compatibility](https://github.com/pixelbyaj/sitepage#compatibility)
 - [License](https://github.com/pixelbyaj/sitepage#license)
+- [Usage](https://github.com/pixelbyaj/sitepage#usage)
 - [Options](https://github.com/pixelbyaj/sitepage#options)
-- [Callbacks](https://github.com/pixelbyaj/sitepage#callbacks)
 - [Reporting issues](https://github.com/pixelbyaj/sitepage#reporting-issues)
 - [Contributing to sitepage](https://github.com/pixelbyaj/sitepage#contributing-to-sitepagejs)
 - [Changelog](https://github.com/pixelbyaj/sitepage#changelog)
-- [Build tasks](https://github.com/pixelbyaj/sitepage#build-tasks)
 - [Resources](https://github.com/pixelbyaj/sitepage#resources)
 - [Donations](https://github.com/pixelbyaj/sitepage#donations)
 
@@ -89,12 +88,13 @@ All you need to do is call sitepage before the closing `</body>` tag.
 new SitePage("sitePage", {
         //brandname
         brandName: "",
-        backgroundColor:"#45b4f5",	
+        backgroundColor:"#45b4f5",
+        verticalAlignMiddle: true, // By default it would be true	
         //sections
         sections: [{
                 anchor: "Home",
                 templateUrl: "./views/home.html",
-                backgroundColor: "#45b4f5"
+                backgroundColor: "#45b4f5",
             },
             {
                 anchor: "Features",
@@ -133,9 +133,63 @@ new SitePage("sitePage", {
 
 
 ```
-
-
+### Options
+```javascript
+{
+        //brandname
+        brandName: "",
+        backgroundColor:"#45b4f5",
+        verticalAlignMiddle: true, // By default it would be true and apply to all sections
+        //sections
+        sections: [{
+                anchor: "Home",
+                templateUrl: "./views/home.html",
+                backgroundColor: "#45b4f5",
+                verticalAlignMiddle:false,//By default it would be false,
+                sectionClass:[]//class to be apply on sections
+            },
+            {
+                anchor: "Features",
+                templateUrl: "./views/features.html",
+                backgroundColor: "#fc6c7c"
+            },
+            {
+                anchor: "Examples",
+                templateUrl: "./views/examples.html",
+                backgroundColor: "#1bbc9b"
+            },
+            {
+                anchor: "Contact Us",
+                template: "<h1>Contact Us</h1>",
+                backgroundColor: "#1bbc9b"
+            }
+        ],
+        //navigation
+	    anchors:true,//true|false
+        navigation: navigation,//horizontal|vertical
+        sameurl: sameurl,//true|false
+        //transition
+        easing: "ease",//ease|ease-in|ease-out|ease-in-out|cubic-bezier(n,n,n,n)
+        transitionSpeed: 1000,//speed in ms
+        //scrolling
+        autoScrolling: autoscrolling,//true|false
+        keyboardNavigation: true,//true|false
+        //callback events
+        pageTransitionStart: (prevPage, currentPage) => {
+            console.log(`prevPage: ${prevPage ? prevPage.id : ""} currentPage :${currentPage.id}`);
+        },
+        pageTransitionEnd: (currentPage) => {
+            console.log(`currentPage :${currentPage.id}`);
+        }
+    }
+```
+## Reporting issues
+## Contributing to sitepage
 ## Donations
+## Changelog
+## Resources
+
+
 Donations would be more than welcome :)
 
 [![Donate](https://www.paypalobjects.com/en_US/GB/i/btn/btn_donateCC_LG.gif)](https://www.paypal.me/pixelbyaj)

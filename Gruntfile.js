@@ -5,12 +5,14 @@ module.exports = function(grunt) {
         pkg: grunt.file.readJSON('package.json'),
         uglify: {
             options: {
-                'output.comments': 'all',
-                banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
+                output: {
+                    comments: 'all'
+                },
+                banner: '/*!\n <%= pkg.buildName %> - v<%= pkg.version %>\n* https://github.com/pixelbyaj/SitePage\n* @author Abhishek Joshi\n* @license MIT*/'
             },
             build: {
-                src: 'build/bundle.<%= pkg.name %>.js',
-                dest: 'dist/<%= pkg.name %>.min.js'
+                src: 'build/<%= pkg.buildName %>.js',
+                dest: 'dist/<%= pkg.buildName %>.min.js'
             }
         },
         ts: {
@@ -23,8 +25,8 @@ module.exports = function(grunt) {
                 separator: ';',
             },
             dist: {
-                src: ['build/<%= pkg.name %>.js', 'src/scripts/swiped-events.min.js'],
-                dest: 'build/bundle.<%= pkg.name %>.js',
+                src: ['build/<%= pkg.buildName %>.js', 'src/scripts/swiped-events.min.js'],
+                dest: 'build/<%= pkg.buildName %>.js',
             },
         },
         cssmin: {
@@ -32,10 +34,11 @@ module.exports = function(grunt) {
                 keepSpecialComments: 0
             },
             site: {
-                src: ['src/style/<%= pkg.name %>.css'],
-                dest: 'dist/style/<%= pkg.name %>.min.css'
+                src: ['src/style/<%= pkg.buildName %>.css'],
+                dest: 'dist/style/<%= pkg.buildName %>.min.css'
             }
-        }
+        },
+        clean: ['build/', 'dist/']
     });
 
     // Load the plugin that provides the "uglify" task.
@@ -43,8 +46,9 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-ts');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
+    grunt.loadNpmTasks('grunt-contrib-clean');
 
     // Default task(s).
-    grunt.registerTask('default', ['ts', 'concat', 'uglify', 'cssmin']);
+    grunt.registerTask('build', ['clean', 'ts', 'concat', 'uglify', 'cssmin']);
 
 };

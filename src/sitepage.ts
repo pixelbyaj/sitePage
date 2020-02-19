@@ -1,7 +1,6 @@
 
 /*!
  * sitePage.js - v1.0.9
- * Pure JavaScript Site Page
  * https://github.com/pixelbyaj/SitePage
  * @author Abhishek Joshi
  * @license MIT
@@ -24,17 +23,25 @@ class SitePage {
         }
 
         let _options: any = {
-            brandName: "SitePage",
+            //brandName
+            brandName: "sitePage",
             backgroundColor: "#fc6c7c",
+            //menu
+            menuId: "sp-menu",
             anchors: true,
+            //navigaiton
+            verticalAlignMiddle: true,
             sections: [],
             navigation: "vertical",
+            //scrolling and transition
             autoScrolling: true,
+            keyboardNavigation: true,
             scrollbar: false,
             transitionSpeed: 1000,
             easing: "ease",
+            //url changes
             sameurl: true,
-            keyboardNavigation: true,
+            //events
             pageTransitionStart: (prevPage: HTMLElement, currentPage: HTMLElement) => { },
             pageTransitionEnd: (currentPage: HTMLElement) => { },
         };
@@ -79,17 +86,21 @@ class SitePage {
 
                 });
             },
-            getCellElement: (): any => {
+            getCellElement: (classList: string[], verticalAlignMiddle: Boolean): any => {
                 var cellDiv = $.createElement("div");
                 cellDiv.setAttribute("class", "sp-cell");
+                if (_options.verticalAlignMiddle) {
+                    if (verticalAlignMiddle === undefined || verticalAlignMiddle)
+                        classList.push(...["align-middle","text-center"]);
+                }
+                if (classList) {
+                    cellDiv.classList.add(...classList);
+                }
                 htmlUtility.setSectionHeight(cellDiv);
                 return cellDiv;
             },
             setBackgroundColor: (element: any, color: any) => {
                 element.style.backgroundColor = color;
-            },
-            setBackgroundCssClass: (element: any, cssClass: any) => {
-                element.classList.add(cssClass);
             },
             getBrandName: (classList: string[], brandName: string): HTMLElement => {
 
@@ -138,6 +149,7 @@ class SitePage {
                 navDiv.classList.add("navbar-nav-scroll");
 
                 let navUl = $.createElement("ul");
+                navUl.setAttribute("id", _options.menuId);
                 let navUlClass = ["navbar-nav", "bd-navbar-nav", "flex-row"]
                 navUl.classList.add(...navUlClass);
                 navDiv.appendChild(navUl);
@@ -424,7 +436,8 @@ class SitePage {
 
                     let sectionEle = htmlUtility.setSection(section, index + 1);
                     sectionEle.setAttribute("data-anchor", anchorId);
-                    const cellEle = htmlUtility.getCellElement();
+                    let sectionClass = section.sectionClass || [];
+                    const cellEle = htmlUtility.getCellElement(sectionClass, section.verticalAlignMiddle);
                     cellEle.innerHTML = sectionEle.innerHTML;
                     sectionEle.innerHTML = "";
                     sectionEle.appendChild(cellEle);
@@ -432,13 +445,15 @@ class SitePage {
                     _sectionIds.push(anchorId);
                     if (_options.anchors) {
                         //navigation
-                        let navLi = htmlUtility.getNavigationLink(["nav-link", "text-nowrap"], section.anchor, anchorId);
+                        var anchorClass = ["nav-link", "text-nowrap"];
+                        if (section.anchorClass) {
+                            anchorClass = [...anchorClass, ...section.anchorClass]
+                        }
+                        let navLi = htmlUtility.getNavigationLink(anchorClass, section.anchor, anchorId);
                         navUl.appendChild(navLi);
                     }
                     if (section.backgroundColor) {
                         htmlUtility.setBackgroundColor(sectionEle, section.backgroundColor);
-                    } else if (section.backgroundCssClass) {
-                        htmlUtility.setBackgroundCssClass(sectionEle, section.backgroundCssClass);
                     }
                 });
 
