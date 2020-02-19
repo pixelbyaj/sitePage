@@ -60,9 +60,8 @@ npm install sitepage.js
 <script type="text/javascript" src="sitepage.min.js"></script>
 ```
 ### Optional use of CDN
-If you prefer to use a CDN to load the needed files, sitePage.js is in CDNJS:
-<script src="https://cdn.jsdelivr.net/npm/sitepage.js@2.0.1/dist/sitepage.min.js" integrity="sha256-r2OgTPxI+KYwT4Alnw5jpfnthJz6mNXHnNMc6ohcVRI=" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sitepage.js@2.0.1/dist/style/sitepage.min.css" integrity="sha256-isyf5RdCqAlEUEVXNCIDZHkoPUjUcUSyrzkZv+HRE+M=" crossorigin="anonymous">
+https://cdn.jsdelivr.net/npm/sitepage.js@2.0.1/dist/sitepage.min.js
+https://cdn.jsdelivr.net/npm/sitepage.js@2.0.1/dist/style/sitepage.min.css
 
 ### Required HTML structure
 Start your HTML document with the compulsory [HTML DOCTYPE declaration](http://www.corelangs.com/html/introduction/doctype.html) on the 1st line of your HTML code. You might have troubles with sections heights otherwise. The examples provided use HTML 5 doctype `<!DOCTYPE html>`.
