@@ -185,12 +185,10 @@ new SitePage("sitePage", {
 ```
 ## Reporting issues
 ## Contributing to sitepage
-## Donations
 ## Changelog
 To see the list of recent changes, see [Releases section](https://github.com/pixelbyaj/sitePage/releases).
 ## Resources
-
-
+## Donations
 Donations would be more than welcome :)
 
 [![Donate](https://www.paypalobjects.com/en_US/GB/i/btn/btn_donateCC_LG.gif)](https://www.paypal.me/pixelbyaj)
