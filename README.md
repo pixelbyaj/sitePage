@@ -187,6 +187,7 @@ new SitePage("sitePage", {
 ## Contributing to sitepage
 ## Donations
 ## Changelog
+To see the list of recent changes, see [Releases section](https://github.com/pixelbyaj/sitePage/releases).
 ## Resources
 
 
