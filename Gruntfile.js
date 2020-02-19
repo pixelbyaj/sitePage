@@ -8,7 +8,7 @@ module.exports = function(grunt) {
                 output: {
                     comments: 'all'
                 },
-                banner: '/*!\n <%= pkg.buildName %> - v<%= pkg.version %>\n* https://github.com/pixelbyaj/SitePage\n* @author Abhishek Joshi\n* @license MIT*/'
+                banner: '/*!\n <%= pkg.name %> - v<%= pkg.version %>\n* https://github.com/pixelbyaj/SitePage\n* @author Abhishek Joshi\n* @license MIT*/'
             },
             build: {
                 src: 'build/<%= pkg.buildName %>.js',
