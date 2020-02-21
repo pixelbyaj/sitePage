@@ -1,5 +1,6 @@
 # sitePage.js
 ![sitePage.js version](https://img.shields.io/npm/v/sitepage.js/latest)
+![Download](https://img.shields.io/npm/dw/sitepage.js)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://mit-license.org/)
 [![PayPal Donate](https://img.shields.io/badge/donate-PayPal.me-ff69b4.svg)](https://www.paypal.me/pixelbyaj)
 [![jsDelivr Hits](https://data.jsdelivr.com/v1/package/npm/sitepage.js/badge?style=rounded)](https://www.jsdelivr.com/package/npm/sitepage.js)
