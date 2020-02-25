@@ -69,7 +69,12 @@ document.ready(function() {
             }
         ],
         //navigation: "horizontal|vertical",
-        anchors: true,
+        anchors: true, //default true
+        hamburger: {
+            lineColor: "#fff",
+            //closeOnNavigation: false,
+            //backgroundColor: ""
+        },
         easing: "ease",
         //sameurl: true|false,
         transitionSpeed: 1000,

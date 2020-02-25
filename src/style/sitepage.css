@@ -81,3 +81,161 @@ body {
         -webkit-overflow-scrolling: touch;
     }
 }
+
+
+/*Hamburger Css start*/
+
+.sp-hb-menu {
+    width: 35px;
+    height: 30px;
+    margin: 30px 0 20px 20px;
+    cursor: pointer;
+}
+
+
+/*menu-bar*/
+
+.sp-bh-menu-bg,
+.sp-hb-menu-bar {
+    top: 0;
+    left: 0;
+    position: absolute;
+}
+
+.sp-hb-menu-bar {
+    z-index: 2;
+}
+
+.bar {
+    height: 5px;
+    width: 100%;
+    display: block;
+    border-radius: 5px;
+    transition: 0.3s ease;
+}
+
+.bar.bar-color {
+    background-color: #b81568;
+}
+
+#bar1 {
+    transform: translateY(-4px);
+}
+
+#bar3 {
+    transform: translateY(4px);
+}
+
+
+/* navigation */
+
+.sp-hb-nav {
+    padding: 0;
+    margin: 0 20px;
+    transition: 0.3s ease;
+    display: none;
+    font-family: 'PT Sans', sans-serif;
+}
+
+.sp-hb-nav .nav-item {
+    list-style: none;
+}
+
+.sp-hb-nav .nav-link {
+    padding: .5rem 0rem;
+}
+
+.sp-hb-nav .nav-item a.nav-link {
+    color: #fff;
+    text-decoration: none;
+}
+
+.sp-hb-nav .nav-item a.nav-link:hover {
+    font-weight: bold;
+}
+
+.sp-hb-menu-bg {
+    z-index: -1;
+    width: 0;
+    height: 0;
+    margin: 0;
+    padding: 0;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background: rgb(55, 60, 86, 0.9);
+    border-radius: 0 34% 34% 0;
+    transition: 0.3s ease;
+}
+
+.sp-hb-change-bg {
+    width: 300px;
+    height: 750px;
+}
+
+.sp-hb-change .bar {
+    background-color: white;
+}
+
+.sp-hb-change #bar1 {
+    transform: translateY(4px) rotateZ(-45deg);
+}
+
+.sp-hb-change #bar3 {
+    transform: translateY(-6px) rotate(45deg);
+}
+
+.sp-hb-change #bar2 {
+    opacity: 0;
+}
+
+.sp-hb-change {
+    display: block;
+}
+
+.sp-hb-navbar-brand {
+    text-decoration: none !important;
+    letter-spacing: -1px;
+    font-weight: 900;
+    font-family: arial, helvetica;
+    color: #fff;
+    font-size: 1.6rem;
+    position: absolute;
+    left: 80px;
+    top: 20px;
+}
+
+
+/* Small devices (landscape phones, 576px and up) */
+
+@media (min-width: 576px) {}
+
+
+/* Medium devices (tablets, 768px and up) sm */
+
+@media (min-width: 768px) {
+    .sp-hb-nav li a {
+        font-size: 1.2rem;
+    }
+}
+
+
+/* Large devices (desktops, 992px and up) md*/
+
+@media (min-width: 992px) {
+    .sp-hb-nav li a {
+        font-size: 1.4rem;
+    }
+}
+
+
+/* Extra large devices (large desktops, 1200px and up) lg*/
+
+@media (min-width: 1200px) {
+    .sp-hb-nav li a {
+        font-size: 1.6rem;
+    }
+}
+
+
+/*Hamburger Css end*/

@@ -137,36 +137,27 @@ new SitePage("sitePage", {
 {
         //brandname
         brandName: "",
-        backgroundColor:"#45b4f5",
-        verticalAlignMiddle: true, // By default it would be true and apply to all sections
+        backgroundColor:"",
+        verticalAlignMiddle: true, // By default it would be true and apply to all sections trye|false
         //sections
         sections: [{
-                anchor: "Home",
-                templateUrl: "./views/home.html",
-                backgroundColor: "#45b4f5",
-                verticalAlignMiddle:false,//By default it would be false,
-                sectionClass:[]//class to be apply on sections
-            },
-            {
-                anchor: "Features",
-                templateUrl: "./views/features.html",
-                backgroundColor: "#fc6c7c"
-            },
-            {
-                anchor: "Examples",
-                templateUrl: "./views/examples.html",
-                backgroundColor: "#1bbc9b"
-            },
-            {
-                anchor: "Contact Us",
-                template: "<h1>Contact Us</h1>",
-                backgroundColor: "#1bbc9b"
+                anchor: "",
+                templateUrl: "",//use template or templateUrl
+                template:"",//use template or templateUrl
+                backgroundColor: "",
+                verticalAlignMiddle:false,//By default it would be false, true|false
+                sectionClass:[]//string array class to be apply on sections 
             }
         ],
         //navigation
-	    anchors:true,//true|false
-        navigation: navigation,//horizontal|vertical
-        sameurl: sameurl,//true|false
+	    anchors:true,//true|false default true
+        navigation: 'vertical',//horizontal|vertical
+        sameurl: false,//true|false default false
+        hamburger: {
+            lineColor: "",//line color of hamburger
+            backgroundColor: "",//background color when hamburger open,
+            closeOnNavigation:true//default true
+        },
         //transition
         easing: "ease",//ease|ease-in|ease-out|ease-in-out|cubic-bezier(n,n,n,n)
         transitionSpeed: 1000,//speed in ms
