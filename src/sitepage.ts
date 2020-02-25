@@ -173,9 +173,10 @@ class SitePage {
                 }
                 menuBar.appendChild(bgDiv);
 
-                if (_options.brandName?.length > 0)
+                if (_options.brandName?.length > 0) {
                     var brandName = htmlUtility.setBrandName(['sp-hb-navbar-brand'], _options.brandName);
-                menuBar.appendChild(brandName);
+                    menuBar.appendChild(brandName);
+                }
 
                 $.querySelector("body")?.insertBefore(menuBar, $.querySelector("#" + id));
                 menu.addEventListener("click", eventListners.onHamburgerMenuClick);
@@ -188,10 +189,11 @@ class SitePage {
                 const navClass = ["navbar", "fixed-top", "navbar-expand", "navbar-dark", "flex-column", "flex-md-row", "bd-navbar"];
                 nav.classList.add(...navClass);
 
-                //navbrand name
-                let navBrand = htmlUtility.setBrandName(["navbar-brand", "mb-0", "h1"], _options.brandName);
-                nav.appendChild(navBrand);
-
+                if (_options.brandName?.length > 0) {
+                    //navbrand name
+                    let navBrand = htmlUtility.setBrandName(["navbar-brand", "mb-0", "h1"], _options.brandName);
+                    nav.appendChild(navBrand);
+                }
                 let navDiv = $.createElement("div");
                 navDiv.setAttribute("id", "navbarNav");
                 navDiv.classList.add("navbar-nav-scroll");
@@ -422,6 +424,9 @@ class SitePage {
                 if (!_options.sameurl) {
                     let hash = location.hash?.replace("#", "");
                     scrollEvents.scrollToSection(hash, scrollWay);
+                }
+                if (_options.hamburger?.closeOnNavigation !== false) {
+                    eventListners.onHamburgerMenuClick();
                 }
             },
             transitionStart: (e: any) => {

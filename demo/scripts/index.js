@@ -31,7 +31,7 @@ Document.prototype.ready = function(fn) {
 
 document.ready(function() {
     new SitePage("sitePage", {
-        brandName: "PixelByAJ",
+        brandName: "",
         backgroundColor: "",
         verticalAlignMiddle: true, //true||false
         sections: [{
