@@ -124,13 +124,10 @@ class SitePage {
                 let navA = $.createElement("a");
                 navA.classList.add(...classList);
                 navA.removeEventListener("click", eventListners.navigationClick);
-                if (_options.sameurl) {
-                    navA.setAttribute("href", "javascript:void(0)");
-                    navA.setAttribute("data-href", anchorId);
-                    navA.addEventListener("click", eventListners.navigationClick);
-                } else {
-                    navA.setAttribute("href", "#" + anchorId);
-                }
+                navA.setAttribute("href", "javascript:void(0)");
+                navA.setAttribute("data-href", anchorId);
+                navA.addEventListener("click", eventListners.navigationClick);
+
 
                 let textNode = $.createTextNode(anchor);
                 navA.appendChild(textNode);
@@ -331,7 +328,7 @@ class SitePage {
                             break;
                     }
                     if (!_options.sameurl) {
-                        location.hash = sectionId;
+                        location.hash = "#" + sectionId;
                     }
                 }
             }
@@ -420,15 +417,6 @@ class SitePage {
                 scrollEvents.scrollToSection(activeId, scrollWay);
 
             },
-            hashChange: () => {
-                if (!_options.sameurl) {
-                    let hash = location.hash?.replace("#", "");
-                    scrollEvents.scrollToSection(hash, scrollWay);
-                }
-                if (_options.hamburger?.closeOnNavigation !== false) {
-                    eventListners.onHamburgerMenuClick();
-                }
-            },
             transitionStart: (e: any) => {
                 const section = $.querySelector(".section.active");
                 section?.classList.remove("active");
@@ -473,6 +461,7 @@ class SitePage {
             },
             navigationClick: (e: MouseEvent) => {
                 var sectionId = (e.target as HTMLElement).getAttribute("data-href");
+                
                 scrollEvents.scrollToSection(sectionId, scrollWay);
                 if (_options.hamburger?.closeOnNavigation !== false) {
                     eventListners.onHamburgerMenuClick();
@@ -573,11 +562,6 @@ class SitePage {
                     document.addEventListener('swiped-up', eventListners.swipeUp);
                     document.addEventListener('swiped-down', eventListners.swipeDown);
                 }
-
-                if (!_options.sameurl) {
-                    window.addEventListener('hashchange', eventListners.hashChange);
-                }
-
             },
             getAverage: (eleList: any, num: any) => {
                 let sum = 0;

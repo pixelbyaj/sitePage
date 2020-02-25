@@ -76,6 +76,7 @@ document.ready(function() {
             //backgroundColor: ""
         },
         easing: "ease",
+        sameurl: false,
         //sameurl: true|false,
         transitionSpeed: 1000,
         keyboardNavigation: true,
