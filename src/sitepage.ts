@@ -164,6 +164,7 @@ class SitePage {
                 var bgDiv = $.createElement("div");
                 bgDiv.setAttribute("id", "sp-hb-menu-bg");
                 bgDiv.classList.add("sp-hb-menu-bg");
+                bgDiv.style.height = window.innerHeight + "px";
 
                 if (_options.hamburger.backgroundColor) {
                     bgDiv.style.backgroundColor = _options.hamburger.backgroundColor;
@@ -405,7 +406,7 @@ class SitePage {
                 _lastScrollCount = _scrollings.length;
                 return false;
             },
-            windowSize: () => {
+            windowResize: () => {
                 var activeId;
                 document.querySelectorAll(".section").forEach((element: any) => {
                     htmlUtility.setSectionHeight(element);
@@ -414,6 +415,10 @@ class SitePage {
                         activeId = element.getAttribute("data-anchor")
                     }
                 });
+                let ele = $.querySelector("#sp-hb-menu-bg") as HTMLElement;
+                if (ele) {
+                    ele.style.height = window.innerHeight + "px";
+                }
                 scrollEvents.scrollToSection(activeId, scrollWay);
 
             },
@@ -461,7 +466,7 @@ class SitePage {
             },
             navigationClick: (e: MouseEvent) => {
                 var sectionId = (e.target as HTMLElement).getAttribute("data-href");
-                
+
                 scrollEvents.scrollToSection(sectionId, scrollWay);
                 if (_options.hamburger?.closeOnNavigation !== false) {
                     eventListners.onHamburgerMenuClick();
@@ -546,8 +551,8 @@ class SitePage {
                 document.removeEventListener("wheel", eventListners.mouseWheel);
                 document.addEventListener("wheel", eventListners.mouseWheel);
                 //window resize event
-                window.removeEventListener('resize', eventListners.windowSize);
-                window.addEventListener('resize', eventListners.windowSize);
+                window.removeEventListener('resize', eventListners.windowResize);
+                window.addEventListener('resize', eventListners.windowResize);
                 //transition start event
                 $element.removeEventListener('transitionstart', eventListners.transitionStart);
                 $element.addEventListener('transitionstart', eventListners.transitionStart);
