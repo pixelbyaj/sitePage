@@ -1,5 +1,5 @@
 # sitePage.js
-![sitePage.js version](https://img.shields.io/npm/v/sitepage.js/latest)
+[![sitePage.js version](https://img.shields.io/npm/v/sitepage.js/latest)](https://www.npmjs.com/package/sitepage.js)
 [![npm](https://img.shields.io/npm/dt/sitepage.js.svg)](https://www.npmjs.com/package/sitepage.js)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://mit-license.org/)
 [![PayPal Donate](https://img.shields.io/badge/donate-PayPal.me-ff69b4.svg)](https://www.paypal.me/pixelbyaj)
