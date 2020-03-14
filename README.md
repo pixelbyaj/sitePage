@@ -61,8 +61,8 @@ npm install sitepage.js
 <script type="text/javascript" src="sitepage.min.js"></script>
 ```
 ### Optional use of CDN
-https://cdn.jsdelivr.net/npm/sitepage.js@2.0.1/dist/sitepage.min.js
-https://cdn.jsdelivr.net/npm/sitepage.js@2.0.1/dist/style/sitepage.min.css
+https://cdn.jsdelivr.net/npm/sitepage.js@2.0.2/dist/sitepage.min.js
+https://cdn.jsdelivr.net/npm/sitepage.js@2.0.2/dist/style/sitepage.min.css
 
 ### Required HTML structure
 Start your HTML document with the compulsory [HTML DOCTYPE declaration](http://www.corelangs.com/html/introduction/doctype.html) on the 1st line of your HTML code. You might have troubles with sections heights otherwise. The examples provided use HTML 5 doctype `<!DOCTYPE html>`.
@@ -113,7 +113,7 @@ new SitePage("sitePage", {
             }
         ],
         //navigation
-	anchors:true,//true|false
+	    anchors:true,//true|false
         navigation: navigation,//horizontal|vertical
         sameurl: sameurl,//true|false
         //transition
@@ -134,53 +134,56 @@ new SitePage("sitePage", {
 
 ```
 ### Options
+#### General
+
+* brandName: Logo Title of the website.**This Option is optional**
 ```javascript
-{
-        //brandname
-        brandName: "",
-        backgroundColor:"#45b4f5",
-        verticalAlignMiddle: true, // By default it would be true and apply to all sections
-        //sections
-        sections: [{
-                anchor: "Home",
-                templateUrl: "./views/home.html",
-                backgroundColor: "#45b4f5",
-                verticalAlignMiddle:false,//By default it would be false,
-                sectionClass:[]//class to be apply on sections
-            },
-            {
-                anchor: "Features",
-                templateUrl: "./views/features.html",
-                backgroundColor: "#fc6c7c"
-            },
-            {
-                anchor: "Examples",
-                templateUrl: "./views/examples.html",
-                backgroundColor: "#1bbc9b"
-            },
-            {
-                anchor: "Contact Us",
-                template: "<h1>Contact Us</h1>",
-                backgroundColor: "#1bbc9b"
+ brandName: "Logo Title",
+```  
+* backgroundColor: background color of the website. **This Option is optional** If you don't want to give background color for every section you can mention backgroundColor.
+```javascript
+ backgroundColor: "#ffffff",
+``` 
+* verticalAlignMiddle: By Default it is true and apply to all the sections. It will align the content vertically.
+```javascript
+ verticalAlignMiddle: false,
+```
+#### Navigation
+* anchors: Set true|false. If you require a menu set it as a true (By defaul it is true) and if not require set it as false.
+* sameurl: Set true|false. While navigating the url will change
+        navigation: 'vertical',//horizontal|vertical
+        hamburger: {
+            lineColor: "",//line color of hamburger
+            backgroundColor: "",//background color when hamburger open,
+            closeOnNavigation:true//default true
+        },
+#### Sections
+```javascript
+    sections: [{
+                anchor: "string",//link name
+                templateUrl: "stringUrl",//use template or templateUrl
+                template:"string",//use template or templateUrl
+                backgroundColor: "string",
+                verticalAlignMiddle:boolean,//By default it would be false, true|false
+                sectionClass:[]//string array class to be apply on sections 
             }
         ],
-        //navigation
-	    anchors:true,//true|false
-        navigation: navigation,//horizontal|vertical
-        sameurl: sameurl,//true|false
-        //transition
-        easing: "ease",//ease|ease-in|ease-out|ease-in-out|cubic-bezier(n,n,n,n)
+```
+#### Transition
+```javascript
+        easing: "string",//ease|ease-in|ease-out|ease-in-out|cubic-bezier(n,n,n,n)
         transitionSpeed: 1000,//speed in ms
-        //scrolling
-        autoScrolling: autoscrolling,//true|false
-        keyboardNavigation: true,//true|false
-        //callback events
-        pageTransitionStart: (prevPage, currentPage) => {
-            console.log(`prevPage: ${prevPage ? prevPage.id : ""} currentPage :${currentPage.id}`);
-        },
-        pageTransitionEnd: (currentPage) => {
-            console.log(`currentPage :${currentPage.id}`);
-        }
+```
+#### Scrolling
+```javascript
+        autoScrolling: boolean,//By default it would be false, true|false
+        keyboardNavigation: boolean,//By default it would be false, true|false
+```
+#### Callback Events
+```javascript
+    pageTransitionStart: (prevPage:HtmlElement, currentPage:HtmlElement) => {
+    }
+    pageTransitionEnd: (currentPage:HtmlElement) => {
     }
 ```
 ## Reporting issues

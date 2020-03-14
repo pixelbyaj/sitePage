@@ -31,7 +31,7 @@ Document.prototype.ready = function(fn) {
 
 document.ready(function() {
     new SitePage("sitePage", {
-        brandName: "PixelByAJ",
+        brandName: "",
         backgroundColor: "",
         verticalAlignMiddle: true, //true||false
         sections: [{
@@ -69,8 +69,14 @@ document.ready(function() {
             }
         ],
         //navigation: "horizontal|vertical",
-        anchors: true,
+        anchors: true, //default true
+        hamburger: {
+            lineColor: "#fff",
+            //closeOnNavigation: false,
+            //backgroundColor: ""
+        },
         easing: "ease",
+        sameurl: false,
         //sameurl: true|false,
         transitionSpeed: 1000,
         keyboardNavigation: true,

@@ -1,6 +1,6 @@
 
 /*!
- * sitePage.js - v1.0.9
+ * sitePage.js - v2.0.2-beta
  * https://github.com/pixelbyaj/SitePage
  * @author Abhishek Joshi
  * @license MIT
@@ -27,12 +27,16 @@ class SitePage {
             brandName: "sitePage",
             backgroundColor: "#fc6c7c",
             //menu
-            menuId: "sp-menu",
             anchors: true,
+            menuId: "sp-menu",
             //navigaiton
             verticalAlignMiddle: true,
             sections: [],
             navigation: "vertical",
+            // hamburger: {
+            //     lineColor: "",
+            //     backgroundColor: ""
+            // },
             //scrolling and transition
             autoScrolling: true,
             keyboardNavigation: true,
@@ -91,7 +95,7 @@ class SitePage {
                 cellDiv.setAttribute("class", "sp-cell");
                 if (_options.verticalAlignMiddle) {
                     if (verticalAlignMiddle === undefined || verticalAlignMiddle)
-                        classList.push(...["align-middle","text-center"]);
+                        classList.push(...["align-middle", "text-center"]);
                 }
                 if (classList) {
                     cellDiv.classList.add(...classList);
@@ -102,7 +106,7 @@ class SitePage {
             setBackgroundColor: (element: any, color: any) => {
                 element.style.backgroundColor = color;
             },
-            getBrandName: (classList: string[], brandName: string): HTMLElement => {
+            setBrandName: (classList: string[], brandName: string): HTMLElement => {
 
 
                 let navSpan = $.createElement("span");
@@ -113,20 +117,17 @@ class SitePage {
 
                 return navSpan;
             },
-            getNavigationLink: (classList: string[], anchor: string, anchorId: string): HTMLElement => {
+            setNavigationLink: (classList: string[], anchor: string, anchorId: string): HTMLElement => {
                 let navLi = $.createElement("li");
                 navLi.classList.add("nav-item");
 
                 let navA = $.createElement("a");
                 navA.classList.add(...classList);
                 navA.removeEventListener("click", eventListners.navigationClick);
-                if (_options.sameurl) {
-                    navA.setAttribute("href", "javascript:void(0)");
-                    navA.setAttribute("data-href", anchorId);
-                    navA.addEventListener("click", eventListners.navigationClick);
-                } else {
-                    navA.setAttribute("href", "#" + anchorId);
-                }
+                navA.setAttribute("href", "javascript:void(0)");
+                navA.setAttribute("data-href", anchorId);
+                navA.addEventListener("click", eventListners.navigationClick);
+
 
                 let textNode = $.createTextNode(anchor);
                 navA.appendChild(textNode);
@@ -134,16 +135,63 @@ class SitePage {
                 navLi.appendChild(navA);
                 return navLi;
             },
+            setHamburgerMenu: () => {
+                let menuBar = $.createElement("div");
+                menuBar.setAttribute("id", _options.menuId);
+                menuBar.classList.add("sp-hb-menu-bar");
+
+                let menu = $.createElement("div");
+                menu.classList.add("sp-hb-menu");
+
+                for (let i = 1; i <= 3; i++) {
+                    let barLine = $.createElement("div");
+                    barLine.setAttribute("id", "bar" + i);
+                    barLine.classList.add("bar");
+                    if (_options.hamburger) {
+                        if (_options.hamburger.lineColor)
+                            barLine.style.backgroundColor = _options.hamburger.lineColor;
+                    } else {
+                        barLine.classList.add("bar-color");
+                    }
+                    menu.appendChild(barLine);
+                }
+                menuBar.appendChild(menu);
+
+                let ulNav = $.createElement("ul");
+                ulNav.classList.add("sp-hb-nav");
+                menuBar.appendChild(ulNav);
+
+                var bgDiv = $.createElement("div");
+                bgDiv.setAttribute("id", "sp-hb-menu-bg");
+                bgDiv.classList.add("sp-hb-menu-bg");
+                bgDiv.style.height = window.innerHeight + "px";
+
+                if (_options.hamburger.backgroundColor) {
+                    bgDiv.style.backgroundColor = _options.hamburger.backgroundColor;
+                }
+                menuBar.appendChild(bgDiv);
+
+                if (_options.brandName?.length > 0) {
+                    var brandName = htmlUtility.setBrandName(['sp-hb-navbar-brand'], _options.brandName);
+                    menuBar.appendChild(brandName);
+                }
+
+                $.querySelector("body")?.insertBefore(menuBar, $.querySelector("#" + id));
+                menu.addEventListener("click", eventListners.onHamburgerMenuClick);
+                return ulNav;
+
+            },
             setNavigationMenu: () => {
 
                 let nav = $.createElement("nav");
                 const navClass = ["navbar", "fixed-top", "navbar-expand", "navbar-dark", "flex-column", "flex-md-row", "bd-navbar"];
                 nav.classList.add(...navClass);
 
-                //navbrand name
-                let navBrand = htmlUtility.getBrandName(["navbar-brand", "mb-0", "h1"], _options.brandName);
-                nav.appendChild(navBrand);
-
+                if (_options.brandName?.length > 0) {
+                    //navbrand name
+                    let navBrand = htmlUtility.setBrandName(["navbar-brand", "mb-0", "h1"], _options.brandName);
+                    nav.appendChild(navBrand);
+                }
                 let navDiv = $.createElement("div");
                 navDiv.setAttribute("id", "navbarNav");
                 navDiv.classList.add("navbar-nav-scroll");
@@ -154,6 +202,7 @@ class SitePage {
                 navUl.classList.add(...navUlClass);
                 navDiv.appendChild(navUl);
                 nav.appendChild(navDiv);
+
 
                 $.querySelector("body")?.insertBefore(nav, $.querySelector("#" + id));
                 return navUl;
@@ -280,7 +329,7 @@ class SitePage {
                             break;
                     }
                     if (!_options.sameurl) {
-                        location.hash = sectionId;
+                        location.hash = "#" + sectionId;
                     }
                 }
             }
@@ -357,7 +406,7 @@ class SitePage {
                 _lastScrollCount = _scrollings.length;
                 return false;
             },
-            windowSize: () => {
+            windowResize: () => {
                 var activeId;
                 document.querySelectorAll(".section").forEach((element: any) => {
                     htmlUtility.setSectionHeight(element);
@@ -366,14 +415,12 @@ class SitePage {
                         activeId = element.getAttribute("data-anchor")
                     }
                 });
+                let ele = $.querySelector("#sp-hb-menu-bg") as HTMLElement;
+                if (ele) {
+                    ele.style.height = window.innerHeight + "px";
+                }
                 scrollEvents.scrollToSection(activeId, scrollWay);
 
-            },
-            hashChange: () => {
-                if (!_options.sameurl) {
-                    let hash = location.hash?.replace("#", "");
-                    scrollEvents.scrollToSection(hash, scrollWay);
-                }
             },
             transitionStart: (e: any) => {
                 const section = $.querySelector(".section.active");
@@ -419,7 +466,16 @@ class SitePage {
             },
             navigationClick: (e: MouseEvent) => {
                 var sectionId = (e.target as HTMLElement).getAttribute("data-href");
+
                 scrollEvents.scrollToSection(sectionId, scrollWay);
+                if (_options.hamburger?.closeOnNavigation !== false) {
+                    eventListners.onHamburgerMenuClick();
+                }
+            },
+            onHamburgerMenuClick: () => {
+                $.querySelector(".sp-hb-menu").classList.toggle("sp-hb-change");
+                $.querySelector(".sp-hb-nav").classList.toggle("sp-hb-change");
+                $.querySelector(".sp-hb-menu-bg").classList.toggle("sp-hb-change-bg");
             }
         }
         //#endregion
@@ -428,8 +484,14 @@ class SitePage {
         const utilityMethod = {
             initSections: () => {
                 htmlUtility.setInitialStyle();
-                let navUl: any = htmlUtility.setNavigationMenu();
-
+                let navUl: any;
+                if (_options.anchors) {
+                    if (!_options.hamburger) {
+                        navUl = htmlUtility.setNavigationMenu();
+                    } else {
+                        navUl = htmlUtility.setHamburgerMenu();
+                    }
+                }
                 //Iterate Sections
                 _options.sections.forEach((section: any, index: number) => {
                     let anchorId = "page" + (index + 1);
@@ -449,7 +511,7 @@ class SitePage {
                         if (section.anchorClass) {
                             anchorClass = [...anchorClass, ...section.anchorClass]
                         }
-                        let navLi = htmlUtility.getNavigationLink(anchorClass, section.anchor, anchorId);
+                        let navLi = htmlUtility.setNavigationLink(anchorClass, section.anchor, anchorId);
                         navUl.appendChild(navLi);
                     }
                     if (section.backgroundColor) {
@@ -489,8 +551,8 @@ class SitePage {
                 document.removeEventListener("wheel", eventListners.mouseWheel);
                 document.addEventListener("wheel", eventListners.mouseWheel);
                 //window resize event
-                window.removeEventListener('resize', eventListners.windowSize);
-                window.addEventListener('resize', eventListners.windowSize);
+                window.removeEventListener('resize', eventListners.windowResize);
+                window.addEventListener('resize', eventListners.windowResize);
                 //transition start event
                 $element.removeEventListener('transitionstart', eventListners.transitionStart);
                 $element.addEventListener('transitionstart', eventListners.transitionStart);
@@ -504,10 +566,6 @@ class SitePage {
                 } else {
                     document.addEventListener('swiped-up', eventListners.swipeUp);
                     document.addEventListener('swiped-down', eventListners.swipeDown);
-                }
-
-                if (!_options.sameurl) {
-                    window.addEventListener('hashchange', eventListners.hashChange);
                 }
             },
             getAverage: (eleList: any, num: any) => {
