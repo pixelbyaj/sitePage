@@ -1,11 +1,11 @@
 {
     "name": "sitepage.js",
     "buildName": "sitepage",
-    "version": "2.0.2-beta-2",
+    "version": "2.0.2",
     "description": "Design the site using JSON and template View",
     "public": true,
     "scripts": {
-        "start": "grunt",
+        "start": "grunt build",
         "deploy": "npm publish --access=public"
     },
     "repository": {
