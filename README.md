@@ -135,6 +135,7 @@ new SitePage("sitePage", {
 ```
 ### Options
 #### General
+
 * brandName: Logo Title of the website.**This Option is optional**
 ```javascript
  brandName: "Logo Title",
@@ -144,6 +145,9 @@ new SitePage("sitePage", {
  backgroundColor: "#ffffff",
 ``` 
 * verticalAlignMiddle: By Default it is true and apply to all the sections. It will align the content vertically.
+```javascript
+ verticalAlignMiddle: false,
+```
 #### Navigation
 * anchors: Set true|false. If you require a menu set it as a true (By defaul it is true) and if not require set it as false.
 * sameurl: Set true|false. While navigating the url will change
@@ -180,48 +184,6 @@ new SitePage("sitePage", {
     pageTransitionStart: (prevPage:HtmlElement, currentPage:HtmlElement) => {
     }
     pageTransitionEnd: (currentPage:HtmlElement) => {
-    }
-```
-* sections: It will take json array and it has all the information for sections.
-    * anchor: the name for the link
-```javascript
-{
-        //brandname
-        brandName: "",
-        backgroundColor:"",
-        verticalAlignMiddle: true, // By default it would be true and apply to all sections trye|false
-        //sections
-        sections: [{
-                anchor: "",
-                templateUrl: "",//use template or templateUrl
-                template:"",//use template or templateUrl
-                backgroundColor: "",
-                verticalAlignMiddle:false,//By default it would be false, true|false
-                sectionClass:[]//string array class to be apply on sections 
-            }
-        ],
-        //navigation
-	    anchors:true,//true|false default true
-        navigation: 'vertical',//horizontal|vertical
-        sameurl: false,//true|false default false
-        hamburger: {
-            lineColor: "",//line color of hamburger
-            backgroundColor: "",//background color when hamburger open,
-            closeOnNavigation:true//default true
-        },
-        //transition
-        easing: "ease",//ease|ease-in|ease-out|ease-in-out|cubic-bezier(n,n,n,n)
-        transitionSpeed: 1000,//speed in ms
-        //scrolling
-        autoScrolling: autoscrolling,//true|false
-        keyboardNavigation: true,//true|false
-        //callback events
-        pageTransitionStart: (prevPage, currentPage) => {
-            console.log(`prevPage: ${prevPage ? prevPage.id : ""} currentPage :${currentPage.id}`);
-        },
-        pageTransitionEnd: (currentPage) => {
-            console.log(`currentPage :${currentPage.id}`);
-        }
     }
 ```
 ## Reporting issues
