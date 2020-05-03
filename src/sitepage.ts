@@ -6,7 +6,18 @@
  * @license MIT
  */
 class SitePage {
-    constructor(id: string, options: any) {
+    //#region Private Variables
+    private scrollWay = Scroll.Vertical;
+    private _scrollings: any[] = [];
+    private _lastScrollCount = 0;
+    private _sectionIds: string[] = [];
+    private _activePageIndex: number;
+    private _activeSection: HTMLElement;
+    private pageIndex: number = 0;
+    private canScroll = true;
+    private scrollerTime: any;
+    //#endregion
+    constructor(id: string, options: IOptions) {
 
         if (!id) {
             throw "Page element not found";
@@ -17,35 +28,36 @@ class SitePage {
             throw "Page element not found";
         }
 
-        const enum Scroll {
-            Horizontal = 1,
-            Vertical = 2
-        }
 
-        let _options: any = {
-            //brandName
-            brandName: "sitePage",
-            backgroundColor: "#fc6c7c",
-            //menu
-            anchors: true,
-            menuId: "sp-menu",
-            //navigaiton
-            verticalAlignMiddle: true,
+        const DEFAULT = {
+            BACKGROUNDCOLOR: "#fc6c7c",
+            MENUID: "sp-menu",
+            NAVIGATION: "vertical",
+            EASING: "ease",
+            SAMEURL: true,
+            AUTOSCROLLING: true,
+            ANCHORS: true,
+            VERTICALALIGNMIDDLE: true,
+            KEYBOARDNAVIGATION: true,
+            SCROLLBAR: false,
+            TRANSITIONSPEED: 1000
+        }
+        let _options: IOptions = {
+            brandName: "",
+            brandLogoUrl: "",
+            backgroundColor: DEFAULT.BACKGROUNDCOLOR,
+            anchors: DEFAULT.ANCHORS,
+            menuId: DEFAULT.MENUID,
+            verticalAlignMiddle: DEFAULT.VERTICALALIGNMIDDLE,
             sections: [],
-            navigation: "vertical",
-            // hamburger: {
-            //     lineColor: "",
-            //     backgroundColor: ""
-            // },
-            //scrolling and transition
-            autoScrolling: true,
-            keyboardNavigation: true,
-            scrollbar: false,
-            transitionSpeed: 1000,
-            easing: "ease",
-            //url changes
-            sameurl: true,
-            //events
+            navigation: DEFAULT.NAVIGATION,
+            hamburger: null,
+            autoScrolling: DEFAULT.AUTOSCROLLING,
+            keyboardNavigation: DEFAULT.KEYBOARDNAVIGATION,
+            scrollbar: DEFAULT.SCROLLBAR,
+            transitionSpeed: DEFAULT.TRANSITIONSPEED,
+            easing: DEFAULT.EASING,
+            sameurl: DEFAULT.SAMEURL,
             pageTransitionStart: (prevPage: HTMLElement, currentPage: HTMLElement) => { },
             pageTransitionEnd: (currentPage: HTMLElement) => { },
         };
@@ -54,17 +66,7 @@ class SitePage {
             _options = { ..._options, ...options };
         }
 
-        //#region Private Variables
-        let scrollWay = Scroll.Vertical;
-        let _scrollings: any[] = [];
-        let _lastScrollCount = 0;
-        let _sectionIds: string[] = [];
-        let _activePageIndex: number;
-        let _activeSection: HTMLElement;
-        let pageIndex: number = 0;
-        let canScroll = true;
-        let scrollerTime: any;
-        //#endregion
+
 
         //#region private methods
 
@@ -82,11 +84,11 @@ class SitePage {
                 element.style.height = window.innerHeight + "px";
             },
             setSectionHorizontal: (element: any) => {
-                element.style.width = (_sectionIds.length * 100) + "%";
+                element.style.width = (this._sectionIds.length * 100) + "%";
                 element.classList.add("sp-floatLeft");
                 element.querySelectorAll(".section").forEach((e: any) => {
                     e.classList.add("sp-floatLeft");
-                    e.style.width = (100 / _sectionIds.length) + "%";
+                    e.style.width = (100 / this._sectionIds.length) + "%";
 
                 });
             },
@@ -106,14 +108,18 @@ class SitePage {
             setBackgroundColor: (element: any, color: any) => {
                 element.style.backgroundColor = color;
             },
-            setBrandName: (classList: string[], brandName: string): HTMLElement => {
-
-
+            setBrandName: (classList: string[], brandName: string, brandLogoUrl: string): HTMLElement => {
                 let navSpan = $.createElement("span");
                 navSpan.classList.add(...classList);
-
-                let textNode = $.createTextNode(brandName);
-                navSpan.appendChild(textNode);
+                let brandNode: any;
+                if (brandName) {
+                    brandNode = $.createTextNode(brandName);
+                    navSpan.appendChild(brandNode);
+                } else {
+                    brandNode = $.createElement("img");
+                    brandNode.setAttribute("src", brandLogoUrl);
+                    navSpan.appendChild(brandNode);
+                }
 
                 return navSpan;
             },
@@ -171,8 +177,8 @@ class SitePage {
                 }
                 menuBar.appendChild(bgDiv);
 
-                if (_options.brandName?.length > 0) {
-                    var brandName = htmlUtility.setBrandName(['sp-hb-navbar-brand'], _options.brandName);
+                if (_options.brandName?.length > 0 || _options.brandLogoUrl?.length > 0) {
+                    var brandName = htmlUtility.setBrandName(['sp-hb-navbar-brand'], _options.brandName, _options.brandLogoUrl);
                     menuBar.appendChild(brandName);
                 }
 
@@ -187,9 +193,9 @@ class SitePage {
                 const navClass = ["navbar", "fixed-top", "navbar-expand", "navbar-dark", "flex-column", "flex-md-row", "bd-navbar"];
                 nav.classList.add(...navClass);
 
-                if (_options.brandName?.length > 0) {
+                if (_options.brandName?.length > 0 || _options.brandLogoUrl?.length > 0) {
                     //navbrand name
-                    let navBrand = htmlUtility.setBrandName(["navbar-brand", "mb-0", "h1"], _options.brandName);
+                    let navBrand = htmlUtility.setBrandName(["navbar-brand", "mb-0", "h1"], _options.brandName, _options.brandLogoUrl);
                     nav.appendChild(navBrand);
                 }
                 let navDiv = $.createElement("div");
@@ -207,7 +213,7 @@ class SitePage {
                 $.querySelector("body")?.insertBefore(nav, $.querySelector("#" + id));
                 return navUl;
             },
-            setSection: (section: any, index: number) => {
+            setSection: (section: ISection, index: number) => {
                 let sectionDiv = $.createElement("div");
                 sectionDiv.setAttribute("id", "section-" + index);
                 sectionDiv.classList.add("section");
@@ -225,7 +231,7 @@ class SitePage {
                 return sectionDiv;
             },
             fetchView: () => {
-                let spInclude = _activeSection.querySelector("sp-include");
+                let spInclude = this._activeSection.querySelector("sp-include");
                 if (spInclude) {
                     let url: any = spInclude.getAttribute("url");
                     fetch(url)
@@ -233,7 +239,7 @@ class SitePage {
                             return response.text();
                         })
                         .then((text) => {
-                            let spCell: any = _activeSection.querySelector(".sp-cell");
+                            let spCell: any = this._activeSection.querySelector(".sp-cell");
                             spCell.innerHTML = text;
                         });
                 }
@@ -245,87 +251,87 @@ class SitePage {
         const scrollEvents = {
             scrollPageUp: () => {
                 let sec_id: string = "";
-                if (_activePageIndex > 0) {
-                    sec_id = _sectionIds[--_activePageIndex];
+                if (this._activePageIndex > 0) {
+                    sec_id = this._sectionIds[--this._activePageIndex];
                 } else {
                     if (_options.autoScrolling) {
-                        _activePageIndex = _sectionIds.length - 1;
-                        sec_id = _sectionIds[_activePageIndex];
+                        this._activePageIndex = this._sectionIds.length - 1;
+                        sec_id = this._sectionIds[this._activePageIndex];
                     }
                 }
                 if (sec_id === "") {
-                    canScroll = true;
+                    this.canScroll = true;
                     return;
                 }
-                scrollEvents.scrollToSection(sec_id, Scroll.Vertical);
+                scrollEvents.scrollToSection(sec_id);
             },
             scrollPageRight: () => {
                 let sec_id: string = "";
-                if (_activePageIndex > 0) {
-                    sec_id = _sectionIds[--_activePageIndex];
+                if (this._activePageIndex > 0) {
+                    sec_id = this._sectionIds[--this._activePageIndex];
                 }
                 else {
                     if (_options.autoScrolling) {
-                        _activePageIndex = _sectionIds.length - 1;
-                        sec_id = _sectionIds[_activePageIndex];
+                        this._activePageIndex = this._sectionIds.length - 1;
+                        sec_id = this._sectionIds[this._activePageIndex];
                     }
                 }
                 if (sec_id === "") {
-                    canScroll = true;
+                    this.canScroll = true;
                     return;
                 }
-                scrollEvents.scrollToSection(sec_id, Scroll.Horizontal);
+                scrollEvents.scrollToSection(sec_id);
             },
             scrollPageDown: () => {
                 let sec_id: string = "";
-                if (_activePageIndex < _sectionIds.length - 1) {
-                    sec_id = _sectionIds[++_activePageIndex]
+                if (this._activePageIndex < this._sectionIds.length - 1) {
+                    sec_id = this._sectionIds[++this._activePageIndex]
                 } else {
                     if (_options.autoScrolling) {
-                        _activePageIndex = 0;
-                        sec_id = _sectionIds[_activePageIndex];
+                        this._activePageIndex = 0;
+                        sec_id = this._sectionIds[this._activePageIndex];
                     }
                 }
                 if (sec_id === "") {
-                    canScroll = true;
+                    this.canScroll = true;
                     return;
                 }
-                scrollEvents.scrollToSection(sec_id, Scroll.Vertical);
+                scrollEvents.scrollToSection(sec_id);
             },
             scrollPageLeft: () => {
                 let sec_id: string = "";
-                if (_activePageIndex < _sectionIds.length - 1) {
-                    sec_id = _sectionIds[++_activePageIndex]
+                if (this._activePageIndex < this._sectionIds.length - 1) {
+                    sec_id = this._sectionIds[++this._activePageIndex]
                 } else {
                     if (_options.autoScrolling) {
-                        _activePageIndex = 0;
-                        sec_id = _sectionIds[_activePageIndex];
+                        this._activePageIndex = 0;
+                        sec_id = this._sectionIds[this._activePageIndex];
                     }
                 }
                 if (sec_id === "") {
-                    canScroll = true;
+                    this.canScroll = true;
                     return;
                 }
-                scrollEvents.scrollToSection(sec_id, Scroll.Horizontal);
+                scrollEvents.scrollToSection(sec_id);
             },
-            scrollToSection: (sectionId: any, ScrollWay: Scroll) => {
-                _activeSection = $.querySelector(`[data-anchor='${sectionId}']`) as HTMLElement;
-                _activePageIndex = _sectionIds.indexOf(sectionId);
+            scrollToSection: (sectionId: any) => {
+                this._activeSection = $.querySelector(`[data-anchor='${sectionId}']`) as HTMLElement;
+                this._activePageIndex = this._sectionIds.indexOf(sectionId);
 
-                if (_activeSection) {
+                if (this._activeSection) {
                     htmlUtility.fetchView();
                     $e.style.transition = `all ${_options.transitionSpeed}ms ${_options.easing} 0s`;
-                    switch (ScrollWay) {
+                    switch (this.scrollWay) {
                         case Scroll.Horizontal:
-                            pageIndex = _activePageIndex * window.innerWidth;
-                            $e.style.transform = `translate3d(-${pageIndex}px, 0px, 0px)`;
+                            this.pageIndex = this._activePageIndex * window.innerWidth;
+                            $e.style.transform = `translate3d(-${this.pageIndex}px, 0px, 0px)`;
                             break;
                         case Scroll.Vertical:
-                            pageIndex = _activePageIndex * window.innerHeight;
-                            if (_activeSection.offsetTop > 0) {
-                                pageIndex = pageIndex > _activeSection.offsetTop ? pageIndex : _activeSection.offsetTop;
+                            this.pageIndex = this._activePageIndex * window.innerHeight;
+                            if (this._activeSection.offsetTop > 0) {
+                                this.pageIndex = this.pageIndex > this._activeSection.offsetTop ? this.pageIndex : this._activeSection.offsetTop;
                             }
-                            $e.style.transform = `translate3d(0px, -${pageIndex}px, 0px)`;
+                            $e.style.transform = `translate3d(0px, -${this.pageIndex}px, 0px)`;
                             break;
                     }
                     if (!_options.sameurl) {
@@ -341,33 +347,33 @@ class SitePage {
             keyDown: (key: { which: any; }) => {
                 switch (key.which) {
                     case 37://ArrowLeft
-                        if (canScroll && _options.navigation === "horizontal") {
-                            canScroll = false;
+                        if (this.canScroll && _options.navigation === "horizontal") {
+                            this.canScroll = false;
                             scrollEvents.scrollPageRight();
                         }
                         break;
                     case 38://ArrowUp
-                        if (canScroll && _options.navigation === "vertical") {
-                            canScroll = false;
+                        if (this.canScroll && _options.navigation === "vertical") {
+                            this.canScroll = false;
                             scrollEvents.scrollPageUp();
                         }
                         break;
                     case 39://ArrowRight
-                        if (canScroll && _options.navigation === "horizontal") {
-                            canScroll = false;
+                        if (this.canScroll && _options.navigation === "horizontal") {
+                            this.canScroll = false;
                             scrollEvents.scrollPageLeft();
                         }
                         break;
                     case 40://ArrowDown
-                        if (canScroll && _options.navigation === "vertical") {
-                            canScroll = false;
+                        if (this.canScroll && _options.navigation === "vertical") {
+                            this.canScroll = false;
                             scrollEvents.scrollPageDown();
                         }
                         break;
                 }
             },
             mouseWheel: (e: any) => {
-                _scrollings.push(_lastScrollCount);
+                this._scrollings.push(this._lastScrollCount);
                 // cross-browser wheel delta
                 e = e || window.event;
                 var value = e.wheelDelta || -e.deltaY || -e.detail;
@@ -381,15 +387,15 @@ class SitePage {
                     e.preventDefault();
                 }
 
-                clearTimeout(scrollerTime);
-                scrollerTime = setTimeout(() => {
-                    if (canScroll && (_lastScrollCount === _scrollings.length)) {
-                        canScroll = false;
-                        _scrollings = [];
-                        _lastScrollCount = 0;
-                        clearInterval(scrollerTime);
-                        var averageEnd = utilityMethod.getAverage(_scrollings, 10);
-                        var averageMiddle = utilityMethod.getAverage(_scrollings, 70);
+                clearTimeout(this.scrollerTime);
+                this.scrollerTime = setTimeout(() => {
+                    if (this.canScroll && (this._lastScrollCount === this._scrollings.length)) {
+                        this.canScroll = false;
+                        this._scrollings = [];
+                        this._lastScrollCount = 0;
+                        clearInterval(this.scrollerTime);
+                        var averageEnd = utilityMethod.getAverage(this._scrollings, 10);
+                        var averageMiddle = utilityMethod.getAverage(this._scrollings, 70);
                         var isAccelerating = averageEnd >= averageMiddle;
 
                         //to avoid double swipes...
@@ -403,7 +409,7 @@ class SitePage {
                         }
                     }
                 }, 100);
-                _lastScrollCount = _scrollings.length;
+                this._lastScrollCount = this._scrollings.length;
                 return false;
             },
             windowResize: () => {
@@ -419,55 +425,55 @@ class SitePage {
                 if (ele) {
                     ele.style.height = window.innerHeight + "px";
                 }
-                scrollEvents.scrollToSection(activeId, scrollWay);
+                scrollEvents.scrollToSection(activeId);
 
             },
             transitionStart: (e: any) => {
                 const section = $.querySelector(".section.active");
                 section?.classList.remove("active");
                 if (_options.pageTransitionStart instanceof Function) {
-                    _options.pageTransitionStart(section, _activeSection);
+                    _options.pageTransitionStart(section as HTMLElement, this._activeSection);
                 }
                 let prevId = section?.getAttribute("data-anchor");
-                let id = _activeSection?.getAttribute("data-anchor");
+                let id = this._activeSection?.getAttribute("data-anchor");
                 $.querySelector(".nav-link[href='#" + prevId + "']")?.classList.remove("active");
                 $.querySelector(".nav-link[href='#" + id + "']")?.classList.add("active");
             },
             transitionEnd: (e: any) => {
-                _activeSection?.classList.add("active");
-                canScroll = true;
+                this._activeSection?.classList.add("active");
+                this.canScroll = true;
                 if (_options.pageTransitionEnd instanceof Function) {
-                    _options.pageTransitionEnd(_activeSection);
+                    _options.pageTransitionEnd(this._activeSection);
                 }
             },
             swipeUp: () => {
-                if (canScroll) {
-                    canScroll = false;
+                if (this.canScroll) {
+                    this.canScroll = false;
                     scrollEvents.scrollPageDown();
                 }
             },
             swipeDown: () => {
-                if (canScroll) {
-                    canScroll = false;
+                if (this.canScroll) {
+                    this.canScroll = false;
                     scrollEvents.scrollPageUp();
                 }
             },
             swipeLeft: () => {
-                if (canScroll) {
-                    canScroll = false;
+                if (this.canScroll) {
+                    this.canScroll = false;
                     scrollEvents.scrollPageLeft();
                 }
             },
             swipeRight: () => {
-                if (canScroll) {
-                    canScroll = false;
+                if (this.canScroll) {
+                    this.canScroll = false;
                     scrollEvents.scrollPageRight();
                 }
             },
             navigationClick: (e: MouseEvent) => {
                 var sectionId = (e.target as HTMLElement).getAttribute("data-href");
 
-                scrollEvents.scrollToSection(sectionId, scrollWay);
+                scrollEvents.scrollToSection(sectionId);
                 if (_options.hamburger?.closeOnNavigation !== false) {
                     eventListners.onHamburgerMenuClick();
                 }
@@ -492,8 +498,9 @@ class SitePage {
                         navUl = htmlUtility.setHamburgerMenu();
                     }
                 }
+
                 //Iterate Sections
-                _options.sections.forEach((section: any, index: number) => {
+                _options.sections.forEach((section: ISection, index: number) => {
                     let anchorId = "page" + (index + 1);
 
                     let sectionEle = htmlUtility.setSection(section, index + 1);
@@ -504,7 +511,7 @@ class SitePage {
                     sectionEle.innerHTML = "";
                     sectionEle.appendChild(cellEle);
                     $e.appendChild(sectionEle);
-                    _sectionIds.push(anchorId);
+                    this._sectionIds.push(anchorId);
                     if (_options.anchors) {
                         //navigation
                         var anchorClass = ["nav-link", "text-nowrap"];
@@ -522,9 +529,9 @@ class SitePage {
 
                 if (_options.navigation.toLowerCase() === "horizontal") {
                     htmlUtility.setSectionHorizontal($e);
-                    scrollWay = Scroll.Horizontal;
+                    this.scrollWay = Scroll.Horizontal;
                 }
-                let activeId: string | null = _sectionIds[0];
+                let activeId: string | null = this._sectionIds[0];
                 if (!_options.sameurl) {
                     let hash = location.hash?.replace("#", "");
                     if (hash) {
@@ -536,8 +543,8 @@ class SitePage {
                         activeId = active.getAttribute("data-anchor");
                     }
                 }
-                scrollEvents.scrollToSection(activeId, scrollWay);
-                let id = _activeSection?.getAttribute("data-anchor");
+                scrollEvents.scrollToSection(activeId);
+                let id = this._activeSection?.getAttribute("data-anchor");
                 $.querySelector(".nav-link[href='#" + activeId + "']")?.classList.add("active");
                 utilityMethod.addEventListeners($e);
             },
@@ -560,7 +567,7 @@ class SitePage {
                 $element.removeEventListener('transitionend', eventListners.transitionEnd);
                 $element.addEventListener('transitionend', eventListners.transitionEnd);
 
-                if (scrollWay == Scroll.Horizontal) {
+                if (this.scrollWay == Scroll.Horizontal) {
                     document.addEventListener('swiped-left', eventListners.swipeLeft);
                     document.addEventListener('swiped-right', eventListners.swipeRight);
                 } else {
@@ -578,12 +585,92 @@ class SitePage {
                 }
 
                 return Math.ceil(sum / num);
+            },
+            addToPublicAPI: () => {
+                this.api.gotoPage = scrollEvents.scrollToSection;
+                if (this.scrollWay === Scroll.Horizontal) {
+                    this.api.navigateToNextPage = scrollEvents.scrollPageRight;
+                    this.api.navigateToPrevPage = scrollEvents.scrollPageLeft;
+                } else {
+                    this.api.navigateToNextPage = scrollEvents.scrollPageDown;
+                    this.api.navigateToPrevPage = scrollEvents.scrollPageUp;
+                }
+                this.api.getMenuItems = (): NodeListOf<Element> => {
+                    return $.querySelectorAll(`.nav-item`);
+                }
+                this.api.getActiveMenuItem = (): HTMLElement => {
+                    var sec_id= this._sectionIds[this._activePageIndex];
+                    return $.querySelector(`[data-anchor='${sec_id}']`) as HTMLElement;
+                }
             }
         }
         //#endregion
+
 
         //#endregion
         utilityMethod.initSections();
     }
 
+    api: ISitePage = {
+        gotoPage: (pageId: string) => {
+
+        },
+        navigateToNextPage: () => {
+
+        },
+        navigateToPrevPage: () => {
+
+        },
+        getMenuItems: (): NodeListOf<Element> => {
+            return null;
+        },
+        getActiveMenuItem: (): HTMLElement => {
+            return null;
+        }
+    }
+}
+const enum Scroll {
+    Horizontal = 1,
+    Vertical = 2
+}
+interface IOptions {
+    brandName: string,
+    brandLogoUrl: string,
+    backgroundColor: string,
+    anchors: boolean,
+    menuId: string,
+    verticalAlignMiddle: boolean,
+    sections: ISection[],
+    navigation: string,
+    hamburger: IHamburger
+    autoScrolling: boolean,
+    keyboardNavigation: boolean,
+    scrollbar: boolean,
+    transitionSpeed: number,
+    easing: string,
+    sameurl: boolean,
+    pageTransitionStart: (prevPage: HTMLElement, currentPage: HTMLElement) => void,
+    pageTransitionEnd: (currentPage: HTMLElement) => void,
+}
+interface ISection {
+    active:boolean,
+    anchor: string,
+    template:string,
+    templateUrl: string,
+    backgroundColor: string,
+    verticalAlignMiddle: boolean, //true||false
+    sectionClass: string[],
+    anchorClass: string[]
+}
+interface IHamburger {
+    lineColor: string,
+    backgroundColor: string,
+    closeOnNavigation: boolean
+}
+interface ISitePage {
+    gotoPage: (pageId: string) => void;
+    navigateToNextPage: () => void;
+    navigateToPrevPage: () => void;
+    getMenuItems: () => NodeListOf<Element>;
+    getActiveMenuItem: () => HTMLElement;
 }
