@@ -9,6 +9,7 @@
 
 A simple and easy to use library that creates single page scrolling websites with horizontal or vertical scrolling.
 - [DEMO](http://pixelbyaj.github.io/sitepage)
+- [StackBlitz](https://stackblitz.com/edit/sitepagejs)
 - [Introduction](https://github.com/pixelbyaj/sitepage#introduction)
 - [Compatibility](https://github.com/pixelbyaj/sitepage#compatibility)
 - [License](https://github.com/pixelbyaj/sitepage#license)
@@ -62,8 +63,8 @@ npm install sitepage.js
 <script type="text/javascript" src="sitepage.min.js"></script>
 ```
 ### Optional use of CDN
-https://cdn.jsdelivr.net/npm/sitepage.js@2.0.2/dist/sitepage.min.js
-https://cdn.jsdelivr.net/npm/sitepage.js@2.0.2/dist/style/sitepage.min.css
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sitepage.js@2.0.2/dist/sitepage.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/sitepage.js@2.0.2/dist/style/sitepage.min.css" />
 
 ### Required HTML structure
 Start your HTML document with the compulsory [HTML DOCTYPE declaration](http://www.corelangs.com/html/introduction/doctype.html) on the 1st line of your HTML code. You might have troubles with sections heights otherwise. The examples provided use HTML 5 doctype `<!DOCTYPE html>`.
@@ -94,18 +95,13 @@ new SitePage("sitePage", {
         //sections
         sections: [{
                 anchor: "Home",
-                templateUrl: "./views/home.html",
+                template: "<h1>Home</h1>",
                 backgroundColor: "#45b4f5",
             },
             {
                 anchor: "Features",
-                templateUrl: "./views/features.html",
+                templateId: "feature",
                 backgroundColor: "#fc6c7c"
-            },
-            {
-                anchor: "Examples",
-                templateUrl: "./views/examples.html",
-                backgroundColor: "#1bbc9b"
             },
             {
                 anchor: "Contact Us",
@@ -115,13 +111,14 @@ new SitePage("sitePage", {
         ],
         //navigation
 	    anchors:true,//true|false
-        navigation: navigation,//horizontal|vertical
-        sameurl: sameurl,//true|false
+        navigation: 'horizontal',//horizontal|vertical
+        sameurl: true,//true|false
+        hamburger:true,//true|{lineColor:"",backgroundColor:"",closeOnNavigation:true}
         //transition
         easing: "ease",//ease|ease-in|ease-out|ease-in-out|cubic-bezier(n,n,n,n)
         transitionSpeed: 1000,//speed in ms
         //scrolling
-        autoScrolling: autoscrolling,//true|false
+        autoScrolling: true,//true|false
         keyboardNavigation: true,//true|false
         //callback events
         pageTransitionStart: (prevPage, currentPage) => {
@@ -158,15 +155,24 @@ new SitePage("sitePage", {
             backgroundColor: "",//background color when hamburger open,
             closeOnNavigation:true//default true
         },
+* Hamburger: Set true or below properties
+    {
+        lineColor:"",
+        backgroundColor:"",
+        closeOnNavigation:true
+    }
 #### Sections
 ```javascript
     sections: [{
+                active:true,//set active|false
                 anchor: "string",//link name
+                templateId:"string"//Id of the template element which to be render
                 templateUrl: "stringUrl",//use template or templateUrl
                 template:"string",//use template or templateUrl
                 backgroundColor: "string",
                 verticalAlignMiddle:boolean,//By default it would be false, true|false
-                sectionClass:[]//string array class to be apply on sections 
+                sectionClass:"class1,class2"//comma separated string or string array class to be apply on sections 
+                anchorClass:"class1,class2"//comma separated string or string array class to be apply on sections 
             }
         ],
 ```
@@ -186,6 +192,22 @@ new SitePage("sitePage", {
     }
     pageTransitionEnd: (currentPage:HtmlElement) => {
     }
+```
+### Public API
+with sitePage 3.0.0 new API has been exposed to have more control on sitepage.js
+* gotoPage(pageId: string);
+* navigateToNextPage();
+* navigateToPrevPage();
+* getMenuItems();
+* getActiveSection();
+```javascript
+        //for example
+        var sitePage = new SitePage(id,options);
+        sitePage.api.gotoPage('page3'); 
+        sitePage.api.navigateToNextPage();
+        sitePage.api.navigateToPrevPage();
+        sitePage.api.getMenuItems();
+        sitePage.api.getActivePage();
 ```
 ## Reporting issues
 ## Contributing to sitepage

@@ -1,7 +1,7 @@
 {
     "name": "sitepage.js",
     "buildName": "sitepage",
-    "version": "2.0.2",
+    "version": "3.0.0",
     "description": "Design the site using JSON and template View",
     "public": true,
     "scripts": {
@@ -17,7 +17,10 @@
         "website-design",
         "website-generation",
         "website-theme",
-        "javascript"
+        "javascript",
+        "sitepage",
+        "vanila javascript",
+        "build website"
     ],
     "author": "Abhishek Joshi",
     "license": "MIT",
