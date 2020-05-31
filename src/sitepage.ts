@@ -1,27 +1,34 @@
 
 /*!
- * sitePage.js - v2.0.2-beta
+ * sitePage.js - v3.0.0
  * https://github.com/pixelbyaj/SitePage
  * @author Abhishek Joshi
  * @license MIT
  */
+
+import { IOptions, ISection, ISitePage, Scroll, IHamburger } from "./models";
+
 class SitePage {
-    //#region Private Variables
-    private scrollWay = Scroll.Vertical;
-    private _scrollings: any[] = [];
-    private _lastScrollCount = 0;
-    private _sectionIds: string[] = [];
-    private _activePageIndex: number;
-    private _activeSection: HTMLElement;
-    private pageIndex: number = 0;
-    private canScroll = true;
-    private scrollerTime: any;
-    //#endregion
+   
+
     constructor(id: string, options: IOptions) {
+
+         //#region Private Variables
+            var scrollWay = Scroll.Vertical;
+            var _scrollings: any[] = [];
+            var _lastScrollCount = 0;
+            var _sectionIds: string[] = [];
+            var _activePageIndex: number;
+            var _activeSection: HTMLElement;
+            var pageIndex: number = 0;
+            var canScroll = true;
+            var scrollerTime: any;
+    //#endregion
 
         if (!id) {
             throw "Page element not found";
         }
+
         let $ = document;
         let $e: any = $.getElementById(id);
         if (!$e) {
@@ -32,7 +39,7 @@ class SitePage {
         const DEFAULT = {
             BACKGROUNDCOLOR: "#fc6c7c",
             MENUID: "sp-menu",
-            NAVIGATION: "vertical",
+            NAVIGATION: Scroll.Vertical,
             EASING: "ease",
             SAMEURL: true,
             AUTOSCROLLING: true,
@@ -40,8 +47,11 @@ class SitePage {
             VERTICALALIGNMIDDLE: true,
             KEYBOARDNAVIGATION: true,
             SCROLLBAR: false,
-            TRANSITIONSPEED: 1000
+            TRANSITIONSPEED: 1000,
+            HAMBURGER:true,
+            HaMBURGERLINECOLOR:'#ffffff',
         }
+
         let _options: IOptions = {
             brandName: "",
             brandLogoUrl: "",
@@ -51,7 +61,7 @@ class SitePage {
             verticalAlignMiddle: DEFAULT.VERTICALALIGNMIDDLE,
             sections: [],
             navigation: DEFAULT.NAVIGATION,
-            hamburger: null,
+            hamburger: DEFAULT.HAMBURGER,
             autoScrolling: DEFAULT.AUTOSCROLLING,
             keyboardNavigation: DEFAULT.KEYBOARDNAVIGATION,
             scrollbar: DEFAULT.SCROLLBAR,
@@ -84,11 +94,11 @@ class SitePage {
                 element.style.height = window.innerHeight + "px";
             },
             setSectionHorizontal: (element: any) => {
-                element.style.width = (this._sectionIds.length * 100) + "%";
+                element.style.width = (_sectionIds.length * 100) + "%";
                 element.classList.add("sp-floatLeft");
                 element.querySelectorAll(".section").forEach((e: any) => {
                     e.classList.add("sp-floatLeft");
-                    e.style.width = (100 / this._sectionIds.length) + "%";
+                    e.style.width = (100 / _sectionIds.length) + "%";
 
                 });
             },
@@ -154,8 +164,11 @@ class SitePage {
                     barLine.setAttribute("id", "bar" + i);
                     barLine.classList.add("bar");
                     if (_options.hamburger) {
-                        if (_options.hamburger.lineColor)
-                            barLine.style.backgroundColor = _options.hamburger.lineColor;
+                        if ((_options.hamburger as IHamburger).lineColor){
+                            barLine.style.backgroundColor = (_options.hamburger as IHamburger).lineColor;
+                        }else{
+                            barLine.style.backgroundColor=DEFAULT.HaMBURGERLINECOLOR;
+                        }
                     } else {
                         barLine.classList.add("bar-color");
                     }
@@ -172,8 +185,8 @@ class SitePage {
                 bgDiv.classList.add("sp-hb-menu-bg");
                 bgDiv.style.height = window.innerHeight + "px";
 
-                if (_options.hamburger.backgroundColor) {
-                    bgDiv.style.backgroundColor = _options.hamburger.backgroundColor;
+                if ((_options.hamburger as IHamburger).backgroundColor) {
+                    bgDiv.style.backgroundColor = (_options.hamburger as IHamburger).backgroundColor;
                 }
                 menuBar.appendChild(bgDiv);
 
@@ -223,6 +236,9 @@ class SitePage {
                 if (section.templateUrl) {
                     const response = `<sp-include url="${section.templateUrl}"/>`;
                     sectionDiv.innerHTML = response;
+                } else if (section.templateId) {
+                    const template = document.getElementById(section.templateId) as HTMLTemplateElement;
+                    sectionDiv.innerHTML = template.innerHTML;
                 } else if (section.template) {
                     sectionDiv.innerHTML = section.template;
                 }
@@ -231,7 +247,7 @@ class SitePage {
                 return sectionDiv;
             },
             fetchView: () => {
-                let spInclude = this._activeSection.querySelector("sp-include");
+                let spInclude = _activeSection.querySelector("sp-include");
                 if (spInclude) {
                     let url: any = spInclude.getAttribute("url");
                     fetch(url)
@@ -239,7 +255,7 @@ class SitePage {
                             return response.text();
                         })
                         .then((text) => {
-                            let spCell: any = this._activeSection.querySelector(".sp-cell");
+                            let spCell: any = _activeSection.querySelector(".sp-cell");
                             spCell.innerHTML = text;
                         });
                 }
@@ -251,87 +267,87 @@ class SitePage {
         const scrollEvents = {
             scrollPageUp: () => {
                 let sec_id: string = "";
-                if (this._activePageIndex > 0) {
-                    sec_id = this._sectionIds[--this._activePageIndex];
+                if (_activePageIndex > 0) {
+                    sec_id = _sectionIds[--_activePageIndex];
                 } else {
                     if (_options.autoScrolling) {
-                        this._activePageIndex = this._sectionIds.length - 1;
-                        sec_id = this._sectionIds[this._activePageIndex];
+                        _activePageIndex = _sectionIds.length - 1;
+                        sec_id = _sectionIds[_activePageIndex];
                     }
                 }
                 if (sec_id === "") {
-                    this.canScroll = true;
+                    canScroll = true;
                     return;
                 }
                 scrollEvents.scrollToSection(sec_id);
             },
             scrollPageRight: () => {
                 let sec_id: string = "";
-                if (this._activePageIndex > 0) {
-                    sec_id = this._sectionIds[--this._activePageIndex];
+                if (_activePageIndex > 0) {
+                    sec_id = _sectionIds[--_activePageIndex];
                 }
                 else {
                     if (_options.autoScrolling) {
-                        this._activePageIndex = this._sectionIds.length - 1;
-                        sec_id = this._sectionIds[this._activePageIndex];
+                        _activePageIndex = _sectionIds.length - 1;
+                        sec_id = _sectionIds[_activePageIndex];
                     }
                 }
                 if (sec_id === "") {
-                    this.canScroll = true;
+                    canScroll = true;
                     return;
                 }
                 scrollEvents.scrollToSection(sec_id);
             },
             scrollPageDown: () => {
                 let sec_id: string = "";
-                if (this._activePageIndex < this._sectionIds.length - 1) {
-                    sec_id = this._sectionIds[++this._activePageIndex]
+                if (_activePageIndex < _sectionIds.length - 1) {
+                    sec_id = _sectionIds[++_activePageIndex]
                 } else {
                     if (_options.autoScrolling) {
-                        this._activePageIndex = 0;
-                        sec_id = this._sectionIds[this._activePageIndex];
+                        _activePageIndex = 0;
+                        sec_id = _sectionIds[_activePageIndex];
                     }
                 }
                 if (sec_id === "") {
-                    this.canScroll = true;
+                    canScroll = true;
                     return;
                 }
                 scrollEvents.scrollToSection(sec_id);
             },
             scrollPageLeft: () => {
                 let sec_id: string = "";
-                if (this._activePageIndex < this._sectionIds.length - 1) {
-                    sec_id = this._sectionIds[++this._activePageIndex]
+                if (_activePageIndex < _sectionIds.length - 1) {
+                    sec_id = _sectionIds[++_activePageIndex]
                 } else {
                     if (_options.autoScrolling) {
-                        this._activePageIndex = 0;
-                        sec_id = this._sectionIds[this._activePageIndex];
+                        _activePageIndex = 0;
+                        sec_id = _sectionIds[_activePageIndex];
                     }
                 }
                 if (sec_id === "") {
-                    this.canScroll = true;
+                    canScroll = true;
                     return;
                 }
                 scrollEvents.scrollToSection(sec_id);
             },
             scrollToSection: (sectionId: any) => {
-                this._activeSection = $.querySelector(`[data-anchor='${sectionId}']`) as HTMLElement;
-                this._activePageIndex = this._sectionIds.indexOf(sectionId);
+                _activeSection = $.querySelector(`[data-anchor='${sectionId}']`) as HTMLElement;
+                _activePageIndex = _sectionIds.indexOf(sectionId);
 
-                if (this._activeSection) {
+                if (_activeSection) {
                     htmlUtility.fetchView();
                     $e.style.transition = `all ${_options.transitionSpeed}ms ${_options.easing} 0s`;
-                    switch (this.scrollWay) {
+                    switch (scrollWay) {
                         case Scroll.Horizontal:
-                            this.pageIndex = this._activePageIndex * window.innerWidth;
-                            $e.style.transform = `translate3d(-${this.pageIndex}px, 0px, 0px)`;
+                            pageIndex = _activePageIndex * window.innerWidth;
+                            $e.style.transform = `translate3d(-${pageIndex}px, 0px, 0px)`;
                             break;
                         case Scroll.Vertical:
-                            this.pageIndex = this._activePageIndex * window.innerHeight;
-                            if (this._activeSection.offsetTop > 0) {
-                                this.pageIndex = this.pageIndex > this._activeSection.offsetTop ? this.pageIndex : this._activeSection.offsetTop;
+                            pageIndex = _activePageIndex * window.innerHeight;
+                            if (_activeSection.offsetTop > 0) {
+                                pageIndex = pageIndex > _activeSection.offsetTop ? pageIndex : _activeSection.offsetTop;
                             }
-                            $e.style.transform = `translate3d(0px, -${this.pageIndex}px, 0px)`;
+                            $e.style.transform = `translate3d(0px, -${pageIndex}px, 0px)`;
                             break;
                     }
                     if (!_options.sameurl) {
@@ -347,33 +363,33 @@ class SitePage {
             keyDown: (key: { which: any; }) => {
                 switch (key.which) {
                     case 37://ArrowLeft
-                        if (this.canScroll && _options.navigation === "horizontal") {
-                            this.canScroll = false;
+                        if (canScroll && _options.navigation === Scroll.Horizontal) {
+                            canScroll = false;
                             scrollEvents.scrollPageRight();
                         }
                         break;
                     case 38://ArrowUp
-                        if (this.canScroll && _options.navigation === "vertical") {
-                            this.canScroll = false;
+                        if (canScroll && _options.navigation === Scroll.Vertical) {
+                            canScroll = false;
                             scrollEvents.scrollPageUp();
                         }
                         break;
                     case 39://ArrowRight
-                        if (this.canScroll && _options.navigation === "horizontal") {
-                            this.canScroll = false;
+                        if (canScroll && _options.navigation === Scroll.Horizontal) {
+                            canScroll = false;
                             scrollEvents.scrollPageLeft();
                         }
                         break;
                     case 40://ArrowDown
-                        if (this.canScroll && _options.navigation === "vertical") {
-                            this.canScroll = false;
+                        if (canScroll && _options.navigation === Scroll.Vertical) {
+                            canScroll = false;
                             scrollEvents.scrollPageDown();
                         }
                         break;
                 }
             },
             mouseWheel: (e: any) => {
-                this._scrollings.push(this._lastScrollCount);
+                _scrollings.push(_lastScrollCount);
                 // cross-browser wheel delta
                 e = e || window.event;
                 var value = e.wheelDelta || -e.deltaY || -e.detail;
@@ -387,15 +403,15 @@ class SitePage {
                     e.preventDefault();
                 }
 
-                clearTimeout(this.scrollerTime);
-                this.scrollerTime = setTimeout(() => {
-                    if (this.canScroll && (this._lastScrollCount === this._scrollings.length)) {
-                        this.canScroll = false;
-                        this._scrollings = [];
-                        this._lastScrollCount = 0;
-                        clearInterval(this.scrollerTime);
-                        var averageEnd = utilityMethod.getAverage(this._scrollings, 10);
-                        var averageMiddle = utilityMethod.getAverage(this._scrollings, 70);
+                clearTimeout(scrollerTime);
+                scrollerTime = setTimeout(() => {
+                    if (canScroll && (_lastScrollCount === _scrollings.length)) {
+                        canScroll = false;
+                        _scrollings = [];
+                        _lastScrollCount = 0;
+                        clearInterval(scrollerTime);
+                        var averageEnd = utilityMethod.getAverage(_scrollings, 10);
+                        var averageMiddle = utilityMethod.getAverage(_scrollings, 70);
                         var isAccelerating = averageEnd >= averageMiddle;
 
                         //to avoid double swipes...
@@ -409,7 +425,7 @@ class SitePage {
                         }
                     }
                 }, 100);
-                this._lastScrollCount = this._scrollings.length;
+                _lastScrollCount = _scrollings.length;
                 return false;
             },
             windowResize: () => {
@@ -432,41 +448,41 @@ class SitePage {
                 const section = $.querySelector(".section.active");
                 section?.classList.remove("active");
                 if (_options.pageTransitionStart instanceof Function) {
-                    _options.pageTransitionStart(section as HTMLElement, this._activeSection);
+                    _options.pageTransitionStart(section as HTMLElement, _activeSection);
                 }
                 let prevId = section?.getAttribute("data-anchor");
-                let id = this._activeSection?.getAttribute("data-anchor");
+                let id = _activeSection?.getAttribute("data-anchor");
                 $.querySelector(".nav-link[href='#" + prevId + "']")?.classList.remove("active");
                 $.querySelector(".nav-link[href='#" + id + "']")?.classList.add("active");
             },
             transitionEnd: (e: any) => {
-                this._activeSection?.classList.add("active");
-                this.canScroll = true;
+                _activeSection?.classList.add("active");
+                canScroll = true;
                 if (_options.pageTransitionEnd instanceof Function) {
-                    _options.pageTransitionEnd(this._activeSection);
+                    _options.pageTransitionEnd(_activeSection);
                 }
             },
             swipeUp: () => {
-                if (this.canScroll) {
-                    this.canScroll = false;
+                if (canScroll) {
+                    canScroll = false;
                     scrollEvents.scrollPageDown();
                 }
             },
             swipeDown: () => {
-                if (this.canScroll) {
-                    this.canScroll = false;
+                if (canScroll) {
+                    canScroll = false;
                     scrollEvents.scrollPageUp();
                 }
             },
             swipeLeft: () => {
-                if (this.canScroll) {
-                    this.canScroll = false;
+                if (canScroll) {
+                    canScroll = false;
                     scrollEvents.scrollPageLeft();
                 }
             },
             swipeRight: () => {
-                if (this.canScroll) {
-                    this.canScroll = false;
+                if (canScroll) {
+                    canScroll = false;
                     scrollEvents.scrollPageRight();
                 }
             },
@@ -474,8 +490,8 @@ class SitePage {
                 var sectionId = (e.target as HTMLElement).getAttribute("data-href");
 
                 scrollEvents.scrollToSection(sectionId);
-                if (_options.hamburger?.closeOnNavigation !== false) {
-                    eventListners.onHamburgerMenuClick();
+                if ((_options.hamburger as IHamburger)?.closeOnNavigation !== false) {
+                    eventListners.onHamburgerMenuClick();  
                 }
             },
             onHamburgerMenuClick: () => {
@@ -505,18 +521,24 @@ class SitePage {
 
                     let sectionEle = htmlUtility.setSection(section, index + 1);
                     sectionEle.setAttribute("data-anchor", anchorId);
+                    if (typeof (section.sectionClass) === 'string') {
+                        section.sectionClass = section.sectionClass?.split(',');
+                    }
                     let sectionClass = section.sectionClass || [];
-                    const cellEle = htmlUtility.getCellElement(sectionClass, section.verticalAlignMiddle);
+                    const cellEle = htmlUtility.getCellElement(sectionClass as string[], section.verticalAlignMiddle);
                     cellEle.innerHTML = sectionEle.innerHTML;
                     sectionEle.innerHTML = "";
                     sectionEle.appendChild(cellEle);
                     $e.appendChild(sectionEle);
-                    this._sectionIds.push(anchorId);
+                    _sectionIds.push(anchorId);
                     if (_options.anchors) {
                         //navigation
                         var anchorClass = ["nav-link", "text-nowrap"];
                         if (section.anchorClass) {
-                            anchorClass = [...anchorClass, ...section.anchorClass]
+                            if (typeof (section.anchorClass) === 'string') {
+                                section.anchorClass = section.anchorClass.split(',');
+                            }
+                            anchorClass = [...anchorClass, ...section.anchorClass as string[]]
                         }
                         let navLi = htmlUtility.setNavigationLink(anchorClass, section.anchor, anchorId);
                         navUl.appendChild(navLi);
@@ -529,9 +551,9 @@ class SitePage {
 
                 if (_options.navigation.toLowerCase() === "horizontal") {
                     htmlUtility.setSectionHorizontal($e);
-                    this.scrollWay = Scroll.Horizontal;
+                    scrollWay = Scroll.Horizontal;
                 }
-                let activeId: string | null = this._sectionIds[0];
+                let activeId: string | null = _sectionIds[0];
                 if (!_options.sameurl) {
                     let hash = location.hash?.replace("#", "");
                     if (hash) {
@@ -544,9 +566,10 @@ class SitePage {
                     }
                 }
                 scrollEvents.scrollToSection(activeId);
-                let id = this._activeSection?.getAttribute("data-anchor");
+                let id = _activeSection?.getAttribute("data-anchor");
                 $.querySelector(".nav-link[href='#" + activeId + "']")?.classList.add("active");
                 utilityMethod.addEventListeners($e);
+                utilityMethod.addToPublicAPI();
             },
             addEventListeners: ($element: HTMLElement) => {
                 //keyboard navigation event
@@ -567,7 +590,7 @@ class SitePage {
                 $element.removeEventListener('transitionend', eventListners.transitionEnd);
                 $element.addEventListener('transitionend', eventListners.transitionEnd);
 
-                if (this.scrollWay == Scroll.Horizontal) {
+                if (scrollWay == Scroll.Horizontal) {
                     document.addEventListener('swiped-left', eventListners.swipeLeft);
                     document.addEventListener('swiped-right', eventListners.swipeRight);
                 } else {
@@ -588,7 +611,7 @@ class SitePage {
             },
             addToPublicAPI: () => {
                 this.api.gotoPage = scrollEvents.scrollToSection;
-                if (this.scrollWay === Scroll.Horizontal) {
+                if (scrollWay === Scroll.Horizontal) {
                     this.api.navigateToNextPage = scrollEvents.scrollPageRight;
                     this.api.navigateToPrevPage = scrollEvents.scrollPageLeft;
                 } else {
@@ -596,10 +619,10 @@ class SitePage {
                     this.api.navigateToPrevPage = scrollEvents.scrollPageUp;
                 }
                 this.api.getMenuItems = (): NodeListOf<Element> => {
-                    return $.querySelectorAll(`.nav-item`);
+                    return $.querySelectorAll('.nav-item');
                 }
-                this.api.getActiveMenuItem = (): HTMLElement => {
-                    var sec_id= this._sectionIds[this._activePageIndex];
+                this.api.getActivePage = (): HTMLElement => {
+                    var sec_id = _sectionIds[_activePageIndex];
                     return $.querySelector(`[data-anchor='${sec_id}']`) as HTMLElement;
                 }
             }
@@ -624,53 +647,8 @@ class SitePage {
         getMenuItems: (): NodeListOf<Element> => {
             return null;
         },
-        getActiveMenuItem: (): HTMLElement => {
+        getActivePage: (): HTMLElement => {
             return null;
         }
     }
-}
-const enum Scroll {
-    Horizontal = 1,
-    Vertical = 2
-}
-interface IOptions {
-    brandName: string,
-    brandLogoUrl: string,
-    backgroundColor: string,
-    anchors: boolean,
-    menuId: string,
-    verticalAlignMiddle: boolean,
-    sections: ISection[],
-    navigation: string,
-    hamburger: IHamburger
-    autoScrolling: boolean,
-    keyboardNavigation: boolean,
-    scrollbar: boolean,
-    transitionSpeed: number,
-    easing: string,
-    sameurl: boolean,
-    pageTransitionStart: (prevPage: HTMLElement, currentPage: HTMLElement) => void,
-    pageTransitionEnd: (currentPage: HTMLElement) => void,
-}
-interface ISection {
-    active:boolean,
-    anchor: string,
-    template:string,
-    templateUrl: string,
-    backgroundColor: string,
-    verticalAlignMiddle: boolean, //true||false
-    sectionClass: string[],
-    anchorClass: string[]
-}
-interface IHamburger {
-    lineColor: string,
-    backgroundColor: string,
-    closeOnNavigation: boolean
-}
-interface ISitePage {
-    gotoPage: (pageId: string) => void;
-    navigateToNextPage: () => void;
-    navigateToPrevPage: () => void;
-    getMenuItems: () => NodeListOf<Element>;
-    getActiveMenuItem: () => HTMLElement;
 }
