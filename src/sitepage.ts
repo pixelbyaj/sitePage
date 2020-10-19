@@ -1,6 +1,6 @@
 
 /*!
- * sitePage.js - v3.0.0
+ * sitePage.js - v3.0.1
  * https://github.com/pixelbyaj/SitePage
  * @author Abhishek Joshi
  * @license MIT
