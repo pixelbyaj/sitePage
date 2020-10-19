@@ -1,51 +1,73 @@
 
 /*!
- * sitePage.js - v2.0.2-beta
+ * sitePage.js - v3.0.0
  * https://github.com/pixelbyaj/SitePage
  * @author Abhishek Joshi
  * @license MIT
  */
+
+import { IOptions, ISection, ISitePage, Scroll, IHamburger } from "./models";
+
 class SitePage {
-    constructor(id: string, options: any) {
+   
+
+    constructor(id: string, options: IOptions) {
+
+         //#region Private Variables
+            var scrollWay = Scroll.Vertical;
+            var _scrollings: any[] = [];
+            var _lastScrollCount = 0;
+            var _sectionIds: string[] = [];
+            var _activePageIndex: number;
+            var _activeSection: HTMLElement;
+            var pageIndex: number = 0;
+            var canScroll = true;
+            var scrollerTime: any;
+    //#endregion
 
         if (!id) {
             throw "Page element not found";
         }
+
         let $ = document;
         let $e: any = $.getElementById(id);
         if (!$e) {
             throw "Page element not found";
         }
 
-        const enum Scroll {
-            Horizontal = 1,
-            Vertical = 2
+
+        const DEFAULT = {
+            BACKGROUNDCOLOR: "#fc6c7c",
+            MENUID: "sp-menu",
+            NAVIGATION: Scroll.Vertical,
+            EASING: "ease",
+            SAMEURL: true,
+            AUTOSCROLLING: true,
+            ANCHORS: true,
+            VERTICALALIGNMIDDLE: true,
+            KEYBOARDNAVIGATION: true,
+            SCROLLBAR: false,
+            TRANSITIONSPEED: 1000,
+            HAMBURGER:true,
+            HaMBURGERLINECOLOR:'#ffffff',
         }
 
-        let _options: any = {
-            //brandName
-            brandName: "sitePage",
-            backgroundColor: "#fc6c7c",
-            //menu
-            anchors: true,
-            menuId: "sp-menu",
-            //navigaiton
-            verticalAlignMiddle: true,
+        let _options: IOptions = {
+            brandName: "",
+            brandLogoUrl: "",
+            backgroundColor: DEFAULT.BACKGROUNDCOLOR,
+            anchors: DEFAULT.ANCHORS,
+            menuId: DEFAULT.MENUID,
+            verticalAlignMiddle: DEFAULT.VERTICALALIGNMIDDLE,
             sections: [],
-            navigation: "vertical",
-            // hamburger: {
-            //     lineColor: "",
-            //     backgroundColor: ""
-            // },
-            //scrolling and transition
-            autoScrolling: true,
-            keyboardNavigation: true,
-            scrollbar: false,
-            transitionSpeed: 1000,
-            easing: "ease",
-            //url changes
-            sameurl: true,
-            //events
+            navigation: DEFAULT.NAVIGATION,
+            hamburger: DEFAULT.HAMBURGER,
+            autoScrolling: DEFAULT.AUTOSCROLLING,
+            keyboardNavigation: DEFAULT.KEYBOARDNAVIGATION,
+            scrollbar: DEFAULT.SCROLLBAR,
+            transitionSpeed: DEFAULT.TRANSITIONSPEED,
+            easing: DEFAULT.EASING,
+            sameurl: DEFAULT.SAMEURL,
             pageTransitionStart: (prevPage: HTMLElement, currentPage: HTMLElement) => { },
             pageTransitionEnd: (currentPage: HTMLElement) => { },
         };
@@ -54,17 +76,7 @@ class SitePage {
             _options = { ..._options, ...options };
         }
 
-        //#region Private Variables
-        let scrollWay = Scroll.Vertical;
-        let _scrollings: any[] = [];
-        let _lastScrollCount = 0;
-        let _sectionIds: string[] = [];
-        let _activePageIndex: number;
-        let _activeSection: HTMLElement;
-        let pageIndex: number = 0;
-        let canScroll = true;
-        let scrollerTime: any;
-        //#endregion
+
 
         //#region private methods
 
@@ -106,14 +118,18 @@ class SitePage {
             setBackgroundColor: (element: any, color: any) => {
                 element.style.backgroundColor = color;
             },
-            setBrandName: (classList: string[], brandName: string): HTMLElement => {
-
-
+            setBrandName: (classList: string[], brandName: string, brandLogoUrl: string): HTMLElement => {
                 let navSpan = $.createElement("span");
                 navSpan.classList.add(...classList);
-
-                let textNode = $.createTextNode(brandName);
-                navSpan.appendChild(textNode);
+                let brandNode: any;
+                if (brandName) {
+                    brandNode = $.createTextNode(brandName);
+                    navSpan.appendChild(brandNode);
+                } else {
+                    brandNode = $.createElement("img");
+                    brandNode.setAttribute("src", brandLogoUrl);
+                    navSpan.appendChild(brandNode);
+                }
 
                 return navSpan;
             },
@@ -148,8 +164,11 @@ class SitePage {
                     barLine.setAttribute("id", "bar" + i);
                     barLine.classList.add("bar");
                     if (_options.hamburger) {
-                        if (_options.hamburger.lineColor)
-                            barLine.style.backgroundColor = _options.hamburger.lineColor;
+                        if ((_options.hamburger as IHamburger).lineColor){
+                            barLine.style.backgroundColor = (_options.hamburger as IHamburger).lineColor;
+                        }else{
+                            barLine.style.backgroundColor=DEFAULT.HaMBURGERLINECOLOR;
+                        }
                     } else {
                         barLine.classList.add("bar-color");
                     }
@@ -166,13 +185,13 @@ class SitePage {
                 bgDiv.classList.add("sp-hb-menu-bg");
                 bgDiv.style.height = window.innerHeight + "px";
 
-                if (_options.hamburger.backgroundColor) {
-                    bgDiv.style.backgroundColor = _options.hamburger.backgroundColor;
+                if ((_options.hamburger as IHamburger).backgroundColor) {
+                    bgDiv.style.backgroundColor = (_options.hamburger as IHamburger).backgroundColor;
                 }
                 menuBar.appendChild(bgDiv);
 
-                if (_options.brandName?.length > 0) {
-                    var brandName = htmlUtility.setBrandName(['sp-hb-navbar-brand'], _options.brandName);
+                if (_options.brandName?.length > 0 || _options.brandLogoUrl?.length > 0) {
+                    var brandName = htmlUtility.setBrandName(['sp-hb-navbar-brand'], _options.brandName, _options.brandLogoUrl);
                     menuBar.appendChild(brandName);
                 }
 
@@ -187,9 +206,9 @@ class SitePage {
                 const navClass = ["navbar", "fixed-top", "navbar-expand", "navbar-dark", "flex-column", "flex-md-row", "bd-navbar"];
                 nav.classList.add(...navClass);
 
-                if (_options.brandName?.length > 0) {
+                if (_options.brandName?.length > 0 || _options.brandLogoUrl?.length > 0) {
                     //navbrand name
-                    let navBrand = htmlUtility.setBrandName(["navbar-brand", "mb-0", "h1"], _options.brandName);
+                    let navBrand = htmlUtility.setBrandName(["navbar-brand", "mb-0", "h1"], _options.brandName, _options.brandLogoUrl);
                     nav.appendChild(navBrand);
                 }
                 let navDiv = $.createElement("div");
@@ -207,7 +226,7 @@ class SitePage {
                 $.querySelector("body")?.insertBefore(nav, $.querySelector("#" + id));
                 return navUl;
             },
-            setSection: (section: any, index: number) => {
+            setSection: (section: ISection, index: number) => {
                 let sectionDiv = $.createElement("div");
                 sectionDiv.setAttribute("id", "section-" + index);
                 sectionDiv.classList.add("section");
@@ -217,6 +236,9 @@ class SitePage {
                 if (section.templateUrl) {
                     const response = `<sp-include url="${section.templateUrl}"/>`;
                     sectionDiv.innerHTML = response;
+                } else if (section.templateId) {
+                    const template = document.getElementById(section.templateId) as HTMLTemplateElement;
+                    sectionDiv.innerHTML = template.innerHTML;
                 } else if (section.template) {
                     sectionDiv.innerHTML = section.template;
                 }
@@ -257,7 +279,7 @@ class SitePage {
                     canScroll = true;
                     return;
                 }
-                scrollEvents.scrollToSection(sec_id, Scroll.Vertical);
+                scrollEvents.scrollToSection(sec_id);
             },
             scrollPageRight: () => {
                 let sec_id: string = "";
@@ -274,7 +296,7 @@ class SitePage {
                     canScroll = true;
                     return;
                 }
-                scrollEvents.scrollToSection(sec_id, Scroll.Horizontal);
+                scrollEvents.scrollToSection(sec_id);
             },
             scrollPageDown: () => {
                 let sec_id: string = "";
@@ -290,7 +312,7 @@ class SitePage {
                     canScroll = true;
                     return;
                 }
-                scrollEvents.scrollToSection(sec_id, Scroll.Vertical);
+                scrollEvents.scrollToSection(sec_id);
             },
             scrollPageLeft: () => {
                 let sec_id: string = "";
@@ -306,16 +328,16 @@ class SitePage {
                     canScroll = true;
                     return;
                 }
-                scrollEvents.scrollToSection(sec_id, Scroll.Horizontal);
+                scrollEvents.scrollToSection(sec_id);
             },
-            scrollToSection: (sectionId: any, ScrollWay: Scroll) => {
+            scrollToSection: (sectionId: any) => {
                 _activeSection = $.querySelector(`[data-anchor='${sectionId}']`) as HTMLElement;
                 _activePageIndex = _sectionIds.indexOf(sectionId);
 
                 if (_activeSection) {
                     htmlUtility.fetchView();
                     $e.style.transition = `all ${_options.transitionSpeed}ms ${_options.easing} 0s`;
-                    switch (ScrollWay) {
+                    switch (scrollWay) {
                         case Scroll.Horizontal:
                             pageIndex = _activePageIndex * window.innerWidth;
                             $e.style.transform = `translate3d(-${pageIndex}px, 0px, 0px)`;
@@ -341,25 +363,25 @@ class SitePage {
             keyDown: (key: { which: any; }) => {
                 switch (key.which) {
                     case 37://ArrowLeft
-                        if (canScroll && _options.navigation === "horizontal") {
+                        if (canScroll && _options.navigation === Scroll.Horizontal) {
                             canScroll = false;
                             scrollEvents.scrollPageRight();
                         }
                         break;
                     case 38://ArrowUp
-                        if (canScroll && _options.navigation === "vertical") {
+                        if (canScroll && _options.navigation === Scroll.Vertical) {
                             canScroll = false;
                             scrollEvents.scrollPageUp();
                         }
                         break;
                     case 39://ArrowRight
-                        if (canScroll && _options.navigation === "horizontal") {
+                        if (canScroll && _options.navigation === Scroll.Horizontal) {
                             canScroll = false;
                             scrollEvents.scrollPageLeft();
                         }
                         break;
                     case 40://ArrowDown
-                        if (canScroll && _options.navigation === "vertical") {
+                        if (canScroll && _options.navigation === Scroll.Vertical) {
                             canScroll = false;
                             scrollEvents.scrollPageDown();
                         }
@@ -419,14 +441,14 @@ class SitePage {
                 if (ele) {
                     ele.style.height = window.innerHeight + "px";
                 }
-                scrollEvents.scrollToSection(activeId, scrollWay);
+                scrollEvents.scrollToSection(activeId);
 
             },
             transitionStart: (e: any) => {
                 const section = $.querySelector(".section.active");
                 section?.classList.remove("active");
                 if (_options.pageTransitionStart instanceof Function) {
-                    _options.pageTransitionStart(section, _activeSection);
+                    _options.pageTransitionStart(section as HTMLElement, _activeSection);
                 }
                 let prevId = section?.getAttribute("data-anchor");
                 let id = _activeSection?.getAttribute("data-anchor");
@@ -467,9 +489,9 @@ class SitePage {
             navigationClick: (e: MouseEvent) => {
                 var sectionId = (e.target as HTMLElement).getAttribute("data-href");
 
-                scrollEvents.scrollToSection(sectionId, scrollWay);
-                if (_options.hamburger?.closeOnNavigation !== false) {
-                    eventListners.onHamburgerMenuClick();
+                scrollEvents.scrollToSection(sectionId);
+                if ((_options.hamburger as IHamburger)?.closeOnNavigation !== false) {
+                    eventListners.onHamburgerMenuClick();  
                 }
             },
             onHamburgerMenuClick: () => {
@@ -492,14 +514,18 @@ class SitePage {
                         navUl = htmlUtility.setHamburgerMenu();
                     }
                 }
+
                 //Iterate Sections
-                _options.sections.forEach((section: any, index: number) => {
+                _options.sections.forEach((section: ISection, index: number) => {
                     let anchorId = "page" + (index + 1);
 
                     let sectionEle = htmlUtility.setSection(section, index + 1);
                     sectionEle.setAttribute("data-anchor", anchorId);
+                    if (typeof (section.sectionClass) === 'string') {
+                        section.sectionClass = section.sectionClass?.split(',');
+                    }
                     let sectionClass = section.sectionClass || [];
-                    const cellEle = htmlUtility.getCellElement(sectionClass, section.verticalAlignMiddle);
+                    const cellEle = htmlUtility.getCellElement(sectionClass as string[], section.verticalAlignMiddle);
                     cellEle.innerHTML = sectionEle.innerHTML;
                     sectionEle.innerHTML = "";
                     sectionEle.appendChild(cellEle);
@@ -509,7 +535,10 @@ class SitePage {
                         //navigation
                         var anchorClass = ["nav-link", "text-nowrap"];
                         if (section.anchorClass) {
-                            anchorClass = [...anchorClass, ...section.anchorClass]
+                            if (typeof (section.anchorClass) === 'string') {
+                                section.anchorClass = section.anchorClass.split(',');
+                            }
+                            anchorClass = [...anchorClass, ...section.anchorClass as string[]]
                         }
                         let navLi = htmlUtility.setNavigationLink(anchorClass, section.anchor, anchorId);
                         navUl.appendChild(navLi);
@@ -536,10 +565,11 @@ class SitePage {
                         activeId = active.getAttribute("data-anchor");
                     }
                 }
-                scrollEvents.scrollToSection(activeId, scrollWay);
+                scrollEvents.scrollToSection(activeId);
                 let id = _activeSection?.getAttribute("data-anchor");
                 $.querySelector(".nav-link[href='#" + activeId + "']")?.classList.add("active");
                 utilityMethod.addEventListeners($e);
+                utilityMethod.addToPublicAPI();
             },
             addEventListeners: ($element: HTMLElement) => {
                 //keyboard navigation event
@@ -578,12 +608,47 @@ class SitePage {
                 }
 
                 return Math.ceil(sum / num);
+            },
+            addToPublicAPI: () => {
+                this.api.gotoPage = scrollEvents.scrollToSection;
+                if (scrollWay === Scroll.Horizontal) {
+                    this.api.navigateToNextPage = scrollEvents.scrollPageRight;
+                    this.api.navigateToPrevPage = scrollEvents.scrollPageLeft;
+                } else {
+                    this.api.navigateToNextPage = scrollEvents.scrollPageDown;
+                    this.api.navigateToPrevPage = scrollEvents.scrollPageUp;
+                }
+                this.api.getMenuItems = (): NodeListOf<Element> => {
+                    return $.querySelectorAll('.nav-item');
+                }
+                this.api.getActivePage = (): HTMLElement => {
+                    var sec_id = _sectionIds[_activePageIndex];
+                    return $.querySelector(`[data-anchor='${sec_id}']`) as HTMLElement;
+                }
             }
         }
         //#endregion
+
 
         //#endregion
         utilityMethod.initSections();
     }
 
+    api: ISitePage = {
+        gotoPage: (pageId: string) => {
+
+        },
+        navigateToNextPage: () => {
+
+        },
+        navigateToPrevPage: () => {
+
+        },
+        getMenuItems: (): NodeListOf<Element> => {
+            return null;
+        },
+        getActivePage: (): HTMLElement => {
+            return null;
+        }
+    }
 }

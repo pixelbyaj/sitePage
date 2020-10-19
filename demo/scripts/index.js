@@ -28,19 +28,20 @@ Document.prototype.ready = function(fn) {
         });
     return promise;
 };
-
+var sitePage;
 document.ready(function() {
-    new SitePage("sitePage", {
-        brandName: "",
+
+    sitePage = new SitePage("sitePage", {
+        brandName: "DEMO",
         backgroundColor: "",
         verticalAlignMiddle: true, //true||false
         sections: [{
                 anchor: "Home",
                 //anchorClass: [],
-                templateUrl: "./views/home.html",
+                templateId: "home-template",
                 backgroundColor: "#ff5f45",
                 verticalAlignMiddle: true, //true||false
-                sectionClass: ['text-right']
+                sectionClass: 'text-right'
             },
             {
                 anchor: "Skills",
@@ -70,11 +71,7 @@ document.ready(function() {
         ],
         //navigation: "horizontal|vertical",
         anchors: true, //default true
-        hamburger: {
-            lineColor: "#fff",
-            //closeOnNavigation: false,
-            //backgroundColor: ""
-        },
+        hamburger: true,
         easing: "ease",
         sameurl: false,
         //sameurl: true|false,
@@ -88,4 +85,5 @@ document.ready(function() {
 
         }
     });
+
 });
