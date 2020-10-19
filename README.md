@@ -4,7 +4,6 @@
 [![npm](https://img.shields.io/npm/dt/sitepage.js.svg)](https://www.npmjs.com/package/sitepage.js)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://mit-license.org/)
 [![PayPal Donate](https://img.shields.io/badge/donate-PayPal.me-ff69b4.svg)](https://www.paypal.me/pixelbyaj)
-
 [![jsDelivr Hits](https://data.jsdelivr.com/v1/package/npm/sitepage.js/badge/day?style=rounded)](https://www.jsdelivr.com/package/npm/sitepage.js)
 [![jsDelivr Hits](https://data.jsdelivr.com/v1/package/npm/sitepage.js/badge?style=rounded)](https://www.jsdelivr.com/package/npm/sitepage.js)
 [![jsDelivr Hits](https://data.jsdelivr.com/v1/package/npm/sitepage.js/badge/year?style=rounded)](https://www.jsdelivr.com/package/npm/sitepage.js)
@@ -66,8 +65,8 @@ npm install sitepage.js
 ```
 ### Optional use of CDN
 ```html
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sitepage.js@3.0.0/dist/sitepage.min.js"></script>
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/sitepage.js@3.0.0/dist/style/sitepage.min.css" />
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sitepage.js@3.0.1/dist/sitepage.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/sitepage.js@3.0.1/dist/style/sitepage.min.css" />
 ```
 ### Required HTML structure
 Start your HTML document with the compulsory [HTML DOCTYPE declaration](http://www.corelangs.com/html/introduction/doctype.html) on the 1st line of your HTML code. You might have troubles with sections heights otherwise. The examples provided use HTML 5 doctype `<!DOCTYPE html>`.
@@ -197,7 +196,7 @@ new SitePage("sitePage", {
     }
 ```
 ### Public API
-with sitePage 3.0.0 new API has been exposed to have more control on sitepage.js
+with sitePage 3.0.1 new API has been exposed to have more control on sitepage.js
 * gotoPage(pageId: string);
 * navigateToNextPage();
 * navigateToPrevPage();

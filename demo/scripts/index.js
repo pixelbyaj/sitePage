@@ -32,7 +32,7 @@ var sitePage;
 document.ready(function() {
 
     sitePage = new SitePage("sitePage", {
-        brandName: "DEMO",
+        brandName: "DEMO 123",
         backgroundColor: "",
         verticalAlignMiddle: true, //true||false
         sections: [{
