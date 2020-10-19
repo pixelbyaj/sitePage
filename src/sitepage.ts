@@ -107,7 +107,7 @@ class SitePage {
                 cellDiv.setAttribute("class", "sp-cell");
                 if (_options.verticalAlignMiddle) {
                     if (verticalAlignMiddle === undefined || verticalAlignMiddle)
-                        classList.push(...["align-middle", "text-center"]);
+                    cellDiv.classList.add(...["align-middle", "text-center"]);
                 }
                 if (classList) {
                     cellDiv.classList.add(...classList);
