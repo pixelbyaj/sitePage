@@ -193,7 +193,8 @@ body {
     display: block;
 }
 
-.sp-hb-navbar-brand {
+.sp-hb-navbar-brand,
+.sp-navbar-brand {
     text-decoration: none !important;
     letter-spacing: -1px;
     font-weight: 900;
@@ -203,6 +204,10 @@ body {
     position: absolute;
     left: 80px;
     top: 18px;
+}
+
+.sp-navbar-brand {
+    left: 40px !important;
 }
 
 
