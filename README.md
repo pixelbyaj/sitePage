@@ -1,12 +1,12 @@
 # sitePage.js
 [![sitePage.js version](https://img.shields.io/npm/v/sitepage.js/latest)](https://www.npmjs.com/package/sitepage.js)
+[![Known Vulnerabilities](https://snyk.io/test/github/pixelbyaj/sitePage/badge.svg?targetFile=package.json)](https://snyk.io/test/github/pixelbyaj/sitePage?targetFile=package.json)
 [![npm](https://img.shields.io/npm/dt/sitepage.js.svg)](https://www.npmjs.com/package/sitepage.js)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://mit-license.org/)
 [![PayPal Donate](https://img.shields.io/badge/donate-PayPal.me-ff69b4.svg)](https://www.paypal.me/pixelbyaj)
 [![jsDelivr Hits](https://data.jsdelivr.com/v1/package/npm/sitepage.js/badge/day?style=rounded)](https://www.jsdelivr.com/package/npm/sitepage.js)
 [![jsDelivr Hits](https://data.jsdelivr.com/v1/package/npm/sitepage.js/badge?style=rounded)](https://www.jsdelivr.com/package/npm/sitepage.js)
 [![jsDelivr Hits](https://data.jsdelivr.com/v1/package/npm/sitepage.js/badge/year?style=rounded)](https://www.jsdelivr.com/package/npm/sitepage.js)
-
 
 A simple and easy to use library that creates single page scrolling websites with horizontal or vertical scrolling.
 - [DEMO](http://pixelbyaj.github.io/sitepage)
