@@ -32,7 +32,7 @@ var sitePage;
 document.ready(function() {
 
     sitePage = new SitePage("sitePage", {
-        brandName: "DEMO 123",
+        brandName: "PixelByAJ",
         backgroundColor: "",
         verticalAlignMiddle: true, //true||false
         sections: [{
@@ -70,8 +70,8 @@ document.ready(function() {
             }
         ],
         //navigation: "horizontal|vertical",
-        anchors: true, //default true
-        hamburger: true,
+        anchors: false, //default true
+        hamburger: false,
         easing: "ease",
         sameurl: false,
         //sameurl: true|false,

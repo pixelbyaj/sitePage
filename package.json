@@ -1,8 +1,9 @@
 {
     "name": "sitepage.js",
     "buildName": "sitepage",
-    "version": "3.0.1",
-    "description": "Design the site using JSON and template View",
+    "version": "3.0.2",
+    "description": "Create beautiful full-page scrolling website using JSON",
+    "main": "dist/sitepage.min.js",
     "public": true,
     "scripts": {
         "start": "grunt build",

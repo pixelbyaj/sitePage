@@ -49,9 +49,6 @@ As you can see in the example files, you will need to include:
 
 Terminal:
 ```shell
-// With bower
-bower install sitepage.js
-
 // With npm
 npm install sitepage.js
 ```
@@ -65,8 +62,8 @@ npm install sitepage.js
 ```
 ### Optional use of CDN
 ```html
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sitepage.js@3.0.1/dist/sitepage.min.js"></script>
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/sitepage.js@3.0.1/dist/style/sitepage.min.css" />
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sitepage.js@3.0.2/dist/sitepage.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/sitepage.js@3.0.2/dist/style/sitepage.min.css" />
 ```
 ### Required HTML structure
 Start your HTML document with the compulsory [HTML DOCTYPE declaration](http://www.corelangs.com/html/introduction/doctype.html) on the 1st line of your HTML code. You might have troubles with sections heights otherwise. The examples provided use HTML 5 doctype `<!DOCTYPE html>`.
@@ -196,7 +193,7 @@ new SitePage("sitePage", {
     }
 ```
 ### Public API
-with sitePage 3.0.1 new API has been exposed to have more control on sitepage.js
+with sitePage 3.0.0 new API has been exposed to have more control on sitepage.js
 * gotoPage(pageId: string);
 * navigateToNextPage();
 * navigateToPrevPage();

@@ -9,21 +9,21 @@
 import { IOptions, ISection, ISitePage, Scroll, IHamburger } from "./models";
 
 class SitePage {
-   
+
 
     constructor(id: string, options: IOptions) {
 
-         //#region Private Variables
-            var scrollWay = Scroll.Vertical;
-            var _scrollings: any[] = [];
-            var _lastScrollCount = 0;
-            var _sectionIds: string[] = [];
-            var _activePageIndex: number;
-            var _activeSection: HTMLElement;
-            var pageIndex: number = 0;
-            var canScroll = true;
-            var scrollerTime: any;
-    //#endregion
+        //#region Private Variables
+        var scrollWay = Scroll.Vertical;
+        var _scrollings: any[] = [];
+        var _lastScrollCount = 0;
+        var _sectionIds: string[] = [];
+        var _activePageIndex: number;
+        var _activeSection: HTMLElement;
+        var pageIndex: number = 0;
+        var canScroll = true;
+        var scrollerTime: any;
+        //#endregion
 
         if (!id) {
             throw "Page element not found";
@@ -48,8 +48,8 @@ class SitePage {
             KEYBOARDNAVIGATION: true,
             SCROLLBAR: false,
             TRANSITIONSPEED: 1000,
-            HAMBURGER:true,
-            HaMBURGERLINECOLOR:'#ffffff',
+            HAMBURGER: true,
+            HaMBURGERLINECOLOR: '#ffffff',
         }
 
         let _options: IOptions = {
@@ -107,7 +107,7 @@ class SitePage {
                 cellDiv.setAttribute("class", "sp-cell");
                 if (_options.verticalAlignMiddle) {
                     if (verticalAlignMiddle === undefined || verticalAlignMiddle)
-                    cellDiv.classList.add(...["align-middle", "text-center"]);
+                        cellDiv.classList.add(...["align-middle", "text-center"]);
                 }
                 if (classList) {
                     cellDiv.classList.add(...classList);
@@ -164,10 +164,10 @@ class SitePage {
                     barLine.setAttribute("id", "bar" + i);
                     barLine.classList.add("bar");
                     if (_options.hamburger) {
-                        if ((_options.hamburger as IHamburger).lineColor){
+                        if ((_options.hamburger as IHamburger).lineColor) {
                             barLine.style.backgroundColor = (_options.hamburger as IHamburger).lineColor;
-                        }else{
-                            barLine.style.backgroundColor=DEFAULT.HaMBURGERLINECOLOR;
+                        } else {
+                            barLine.style.backgroundColor = DEFAULT.HaMBURGERLINECOLOR;
                         }
                     } else {
                         barLine.classList.add("bar-color");
@@ -195,7 +195,7 @@ class SitePage {
                     menuBar.appendChild(brandName);
                 }
 
-                $.querySelector("body")?.insertBefore(menuBar, $.querySelector("#" + id));
+                $.querySelector("body")?.insertBefore(menuBar, $e);
                 menu.addEventListener("click", eventListners.onHamburgerMenuClick);
                 return ulNav;
 
@@ -491,7 +491,7 @@ class SitePage {
 
                 scrollEvents.scrollToSection(sectionId);
                 if ((_options.hamburger as IHamburger)?.closeOnNavigation !== false) {
-                    eventListners.onHamburgerMenuClick();  
+                    eventListners.onHamburgerMenuClick();
                 }
             },
             onHamburgerMenuClick: () => {
@@ -513,6 +513,15 @@ class SitePage {
                     } else {
                         navUl = htmlUtility.setHamburgerMenu();
                     }
+                } else if (_options.hamburger) {
+                    navUl = htmlUtility.setHamburgerMenu();
+                } else if (_options.brandName?.length > 0 || _options.brandLogoUrl?.length > 0) {
+                    var brandName = htmlUtility.setBrandName(['sp-navbar-brand'], _options.brandName, _options.brandLogoUrl);
+                    let menuBar = $.createElement("div");
+                    menuBar.setAttribute("id", _options.menuId);
+                    menuBar.classList.add("sp-hb-menu-bar");
+                    menuBar.appendChild(brandName);
+                    $.querySelector("body")?.insertBefore(menuBar, $e);
                 }
 
                 //Iterate Sections
@@ -531,7 +540,7 @@ class SitePage {
                     sectionEle.appendChild(cellEle);
                     $e.appendChild(sectionEle);
                     _sectionIds.push(anchorId);
-                    if (_options.anchors) {
+                    if (_options.anchors || _options.hamburger) {
                         //navigation
                         var anchorClass = ["nav-link", "text-nowrap"];
                         if (section.anchorClass) {
