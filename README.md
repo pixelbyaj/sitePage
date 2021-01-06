@@ -9,7 +9,7 @@
 [![jsDelivr Hits](https://data.jsdelivr.com/v1/package/npm/sitepage.js/badge/year?style=rounded)](https://www.jsdelivr.com/package/npm/sitepage.js)
 
 A simple and easy to use library that creates single page scrolling websites with horizontal or vertical scrolling.
-- [DEMO](http://pixelbyaj.github.io/sitepage)
+- [DEMO](https://www.pixelbyaj.com/sitepage)
 - [StackBlitz](https://stackblitz.com/edit/sitepagejs)
 - [Introduction](https://github.com/pixelbyaj/sitepage#introduction)
 - [Compatibility](https://github.com/pixelbyaj/sitepage#compatibility)
@@ -44,7 +44,7 @@ As you can see in the example files, you will need to include:
  - The css file `https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css`
  - The css file `sitepage.min.css`
 
-### Install using bower or npm
+### Install using  npm
 **Optionally**, you can install sitepage with bower or npm if you prefer:
 
 Terminal:
@@ -62,8 +62,8 @@ npm install sitepage.js
 ```
 ### Optional use of CDN
 ```html
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sitepage.js@3.0.2/dist/sitepage.min.js"></script>
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/sitepage.js@3.0.2/dist/style/sitepage.min.css" />
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sitepage.js@3.0.3/dist/sitepage.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/sitepage.js@3.0.3/dist/style/sitepage.min.css" />
 ```
 ### Required HTML structure
 Start your HTML document with the compulsory [HTML DOCTYPE declaration](http://www.corelangs.com/html/introduction/doctype.html) on the 1st line of your HTML code. You might have troubles with sections heights otherwise. The examples provided use HTML 5 doctype `<!DOCTYPE html>`.
@@ -89,6 +89,7 @@ All you need to do is call sitepage before the closing `</body>` tag.
 new SitePage("sitePage", {
         //brandname
         brandName: "",
+        brandLogoUrl:"",//
         backgroundColor:"#45b4f5",
         verticalAlignMiddle: true, // By default it would be true	
         //sections

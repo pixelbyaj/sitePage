@@ -424,7 +424,7 @@ class SitePage {
                             }
                         }
                     }
-                }, 100);
+                }, 0);
                 _lastScrollCount = _scrollings.length;
                 return false;
             },
