@@ -9,7 +9,7 @@
 [![jsDelivr Hits](https://data.jsdelivr.com/v1/package/npm/sitepage.js/badge/year?style=rounded)](https://www.jsdelivr.com/package/npm/sitepage.js)
 
 A simple and easy to use library that creates single page scrolling websites with horizontal or vertical scrolling.
-- [DEMO](https://www.pixelbyaj.com/sitepage)
+- [DEMO](https://www.pixelbyaj.com/sitepage/)
 - [StackBlitz](https://stackblitz.com/edit/sitepagejs)
 - [Introduction](https://github.com/pixelbyaj/sitepage#introduction)
 - [Compatibility](https://github.com/pixelbyaj/sitepage#compatibility)
