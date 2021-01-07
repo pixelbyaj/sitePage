@@ -37,7 +37,7 @@ class SitePage {
 
 
         const DEFAULT = {
-            BACKGROUNDCOLOR: "#fc6c7c",
+            BACKGROUNDCOLOR: "#ffffff",
             MENUID: "sp-menu",
             NAVIGATION: Scroll.Vertical,
             EASING: "ease",
