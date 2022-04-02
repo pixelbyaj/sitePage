@@ -32,9 +32,10 @@ var sitePage;
 document.ready(function() {
 
     sitePage = new SitePage("sitePage", {
-        brandName: "PixelByAJ",
+        brandName: "",
         backgroundColor: "",
         verticalAlignMiddle: true, //true||false
+        autoScrolling:true,
         sections: [{
                 anchor: "Home",
                 //anchorClass: [],
@@ -69,14 +70,15 @@ document.ready(function() {
                 backgroundColor: "#fec401"
             }
         ],
-        //navigation: "horizontal|vertical",
+        navigation: "horizontal",
         anchors: false, //default true
-        hamburger: false,
+        pageIndicator:true,
         easing: "ease",
         sameurl: false,
         //sameurl: true|false,
         transitionSpeed: 1000,
         keyboardNavigation: true,
+
         pageTransitionStart: (prevPage, currentPage) => {
             console.log(`prevPage: ${prevPage ? prevPage.id : ""} currentPage :${currentPage.id}`);
         },

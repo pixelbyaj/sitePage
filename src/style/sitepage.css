@@ -65,13 +65,13 @@ body {
 
 @media (max-width: 991.98px) {
     .bd-navbar {
-        padding-right: .5rem;
-        padding-left: .5rem;
+        padding-right: 0.5rem;
+        padding-left: 0.5rem;
     }
     .bd-navbar .navbar-nav-scroll {
         max-width: 100%;
         height: 2.5rem;
-        margin-top: .25rem;
+        margin-top: 0.25rem;
         overflow: hidden;
     }
     .bd-navbar .navbar-nav-scroll .navbar-nav {
@@ -82,7 +82,6 @@ body {
     }
 }
 
-
 /*Hamburger Css start*/
 
 .sp-hb-menu {
@@ -91,7 +90,6 @@ body {
     margin: 30px 0 20px 20px;
     cursor: pointer;
 }
-
 
 /*menu-bar*/
 
@@ -127,7 +125,6 @@ body {
     transform: translateY(4px);
 }
 
-
 /* navigation */
 
 .sp-hb-nav {
@@ -135,7 +132,7 @@ body {
     margin: 0 20px;
     transition: 0.3s ease;
     display: none;
-    font-family: 'PT Sans', sans-serif;
+    font-family: "PT Sans", sans-serif;
 }
 
 .sp-hb-nav .nav-item {
@@ -143,7 +140,7 @@ body {
 }
 
 .sp-hb-nav .nav-link {
-    padding: .5rem 0rem;
+    padding: 0.5rem 0rem;
 }
 
 .sp-hb-nav .nav-item a.nav-link {
@@ -210,11 +207,10 @@ body {
     left: 40px !important;
 }
 
-
 /* Small devices (landscape phones, 576px and up) */
 
-@media (min-width: 576px) {}
-
+@media (min-width: 576px) {
+}
 
 /* Medium devices (tablets, 768px and up) sm */
 
@@ -224,7 +220,6 @@ body {
     }
 }
 
-
 /* Large devices (desktops, 992px and up) md*/
 
 @media (min-width: 992px) {
@@ -232,7 +227,6 @@ body {
         font-size: 1.4rem;
     }
 }
-
 
 /* Extra large devices (large desktops, 1200px and up) lg*/
 
@@ -242,5 +236,77 @@ body {
     }
 }
 
-
 /*Hamburger Css end*/
+.vertical .sp-pg-nav {
+    margin-top: -32px;
+    top: 50%;
+    position: fixed;
+    z-index: 100;
+    opacity: 1;
+}
+.vertical .sp-pg-right {
+    right: 17px;
+}
+.horizontal .sp-pg-nav {
+    position: fixed;
+    z-index: 100;
+    opacity: 1;
+    text-align: center;
+    width: 100%;
+}
+.horizontal .sp-pg-right {
+    bottom: 17px;
+}
+.horizontal .sp-pg-nav ul{
+    display: inline-flex;
+}
+.sp-pg-nav ul{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.sp-pg-nav ul li {
+    display: block;
+    width: 14px;
+    height: 13px;
+    margin: 7px;
+    position: relative;
+}
+.sp-pg-nav ul li a{
+    display: block;
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    text-decoration: none;
+}
+.sp-pg-nav ul li a span{
+    border-radius: 50%;
+    position: absolute;
+    z-index: 1;
+    height: 4px;
+    width: 4px;
+    border: 0;
+    background: #fff;
+    left: 50%;
+    top: 50%;
+    margin: -2px 0 0 -2px;
+    -webkit-transition: all .1s ease-in-out;
+    -moz-transition: all .1s ease-in-out;
+    -o-transition: all .1s ease-in-out;
+    transition: all .1s ease-in-out;
+}
+
+.sp-pg-nav ul li:hover a span{
+    height: 10px;
+    width: 10px;
+    margin: -5px 0 0 -5px;
+    border-radius: 100%;
+}
+.sp-pg-nav ul li a.active span, .sp-pg-nav ul li:hover a.active span {
+    height: 12px;
+    width: 12px;
+    margin: -6px 0 0 -6px;
+    border-radius: 100%;
+}

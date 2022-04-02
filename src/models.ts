@@ -4,23 +4,24 @@ export const enum Scroll {
 }
 
 export interface IOptions {
-    brandName: string,
-    brandLogoUrl: string,
-    backgroundColor: string,
-    navigation: Scroll,
-    menuId: string,
-    anchors: boolean,
-    verticalAlignMiddle: boolean,
-    autoScrolling: boolean,
-    keyboardNavigation: boolean,
-    scrollbar: boolean,
-    transitionSpeed: number,
-    easing: string,
-    sameurl: boolean,
-    hamburger: boolean | IHamburger
-    sections: ISection[],
-    pageTransitionStart: (prevPage: HTMLElement, currentPage: HTMLElement) => void,
-    pageTransitionEnd: (currentPage: HTMLElement) => void,
+    brandName?: string;
+    brandLogoUrl?: string;
+    backgroundColor?: string;
+    navigation: Scroll;
+    menuId: string;
+    anchors?: boolean;
+    hamburger?: boolean | IHamburger;
+    pageIndicator?: boolean;
+    verticalAlignMiddle?: boolean;
+    autoScrolling?: boolean;
+    keyboardNavigation?: boolean;
+    scrollbar?: boolean;
+    transitionSpeed?: number;
+    easing?: string;
+    sameurl?: boolean;
+    sections: ISection[];
+    pageTransitionStart?: (prevPage: HTMLElement, currentPage: HTMLElement) => void,
+    pageTransitionEnd?: (currentPage: HTMLElement) => void,
 }
 export interface ISection {
     active:boolean,

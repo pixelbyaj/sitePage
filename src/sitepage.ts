@@ -43,12 +43,13 @@ class SitePage {
             EASING: "ease",
             SAMEURL: true,
             AUTOSCROLLING: true,
-            ANCHORS: true,
+            ANCHORS: false,
             VERTICALALIGNMIDDLE: true,
             KEYBOARDNAVIGATION: true,
             SCROLLBAR: false,
             TRANSITIONSPEED: 1000,
-            HAMBURGER: true,
+            HAMBURGER: false,
+            PAGEINDICATOR: true,
             HaMBURGERLINECOLOR: '#ffffff',
         }
 
@@ -62,6 +63,7 @@ class SitePage {
             sections: [],
             navigation: DEFAULT.NAVIGATION,
             hamburger: DEFAULT.HAMBURGER,
+            pageIndicator: DEFAULT.PAGEINDICATOR,
             autoScrolling: DEFAULT.AUTOSCROLLING,
             keyboardNavigation: DEFAULT.KEYBOARDNAVIGATION,
             scrollbar: DEFAULT.SCROLLBAR,
@@ -75,6 +77,13 @@ class SitePage {
         if (options) {
             _options = { ..._options, ...options };
         }
+        const body = $.querySelector("body");
+        if (_options.navigation.toLowerCase() === "horizontal") {
+            scrollWay = Scroll.Horizontal;
+            body.classList.add("horizontal");
+        }else{
+            body.classList.add("vertical");
+        }
 
 
 
@@ -85,7 +94,7 @@ class SitePage {
             setInitialStyle: () => {
                 $e.style.transform = `translate3d(0px, 0px, 0px)`;
                 $e.classList.add("sp-wrapper");
-                $.querySelector("body").style.backgroundColor = _options.backgroundColor;
+                body.style.backgroundColor = _options.backgroundColor;
             },
             setSectionClass: (element: any) => {
                 element.classList.add("sp-section");
@@ -133,6 +142,27 @@ class SitePage {
 
                 return navSpan;
             },
+            setPageIndicator: (classList: string[], anchor: string, anchorId: string): HTMLElement => {
+               
+                let navLi = $.createElement("li");
+                navLi.setAttribute("title", anchor);
+
+                let navA = $.createElement("a");
+                navA.setAttribute("id", `pg_${anchorId}`);
+                navA.classList.add(...classList);
+                navA.removeEventListener("click", eventListners.navigationClick);
+                navA.setAttribute("href", "javascript:void(0)");
+                navA.setAttribute("data-href", anchorId);
+                navA.addEventListener("click", eventListners.navigationClick);
+
+
+                let spanEle = $.createElement("span");
+                navA.appendChild(spanEle);
+
+                navLi.appendChild(navA);
+
+                return navLi;
+            },
             setNavigationLink: (classList: string[], anchor: string, anchorId: string): HTMLElement => {
                 let navLi = $.createElement("li");
                 navLi.classList.add("nav-item");
@@ -142,6 +172,7 @@ class SitePage {
                 navA.removeEventListener("click", eventListners.navigationClick);
                 navA.setAttribute("href", "javascript:void(0)");
                 navA.setAttribute("data-href", anchorId);
+                navA.setAttribute("title", anchor);
                 navA.addEventListener("click", eventListners.navigationClick);
 
 
@@ -354,6 +385,9 @@ class SitePage {
                         location.hash = "#" + sectionId;
                     }
                 }
+               
+                $.querySelector("a.active")?.classList.remove("active");
+                $.querySelector(`#pg_${sectionId}`)?.classList.add("active");
             }
         }
         //#endregion
@@ -487,10 +521,10 @@ class SitePage {
                 }
             },
             navigationClick: (e: MouseEvent) => {
-                var sectionId = (e.target as HTMLElement).getAttribute("data-href");
+                var sectionId = (e.currentTarget as HTMLElement).getAttribute("data-href");
 
                 scrollEvents.scrollToSection(sectionId);
-                if ((_options.hamburger as IHamburger)?.closeOnNavigation !== false) {
+                if ((_options.hamburger as boolean) !== false && (_options.hamburger as IHamburger)?.closeOnNavigation !== false) {
                     eventListners.onHamburgerMenuClick();
                 }
             },
@@ -523,7 +557,14 @@ class SitePage {
                     menuBar.appendChild(brandName);
                     $.querySelector("body")?.insertBefore(menuBar, $e);
                 }
-
+                let pageNavDiv: HTMLElement;
+                let pageIndicatorUl: HTMLElement;
+                if(_options.pageIndicator){
+                    pageNavDiv = $.createElement("div");
+                    pageNavDiv.classList.add(...["sp-pg-nav","sp-pg-right"]);
+                    pageIndicatorUl = $.createElement("ul");
+                }
+                   
                 //Iterate Sections
                 _options.sections.forEach((section: ISection, index: number) => {
                     let anchorId = "page" + (index + 1);
@@ -552,12 +593,19 @@ class SitePage {
                         let navLi = htmlUtility.setNavigationLink(anchorClass, section.anchor, anchorId);
                         navUl.appendChild(navLi);
                     }
+                    // Add PageIndicator
+                    const pageIndicatorLi = htmlUtility.setPageIndicator(anchorClass,section.anchor, anchorId);
+                    if(pageIndicatorUl){
+                        pageIndicatorUl.appendChild(pageIndicatorLi);
+                    }
+
                     if (section.backgroundColor) {
                         htmlUtility.setBackgroundColor(sectionEle, section.backgroundColor);
                     }
                 });
-
-
+                if(pageNavDiv){
+                    pageNavDiv.appendChild(pageIndicatorUl);
+                }
                 if (_options.navigation.toLowerCase() === "horizontal") {
                     htmlUtility.setSectionHorizontal($e);
                     scrollWay = Scroll.Horizontal;
@@ -574,11 +622,15 @@ class SitePage {
                         activeId = active.getAttribute("data-anchor");
                     }
                 }
+                if(pageNavDiv){
+                    $.querySelector("body")?.insertBefore(pageNavDiv, $e);
+                }
                 scrollEvents.scrollToSection(activeId);
                 let id = _activeSection?.getAttribute("data-anchor");
                 $.querySelector(".nav-link[href='#" + activeId + "']")?.classList.add("active");
                 utilityMethod.addEventListeners($e);
                 utilityMethod.addToPublicAPI();
+               
             },
             addEventListeners: ($element: HTMLElement) => {
                 //keyboard navigation event

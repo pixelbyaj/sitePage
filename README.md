@@ -2,7 +2,7 @@
 [![sitePage.js version](https://img.shields.io/npm/v/sitepage.js/latest)](https://www.npmjs.com/package/sitepage.js)
 [![Known Vulnerabilities](https://snyk.io/test/github/pixelbyaj/sitePage/badge.svg?targetFile=package.json)](https://snyk.io/test/github/pixelbyaj/sitePage?targetFile=package.json)
 [![npm](https://img.shields.io/npm/dt/sitepage.js.svg)](https://www.npmjs.com/package/sitepage.js)
-[![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://mit-license.org/)
+[![License](https://img.shields.io/badge/License-GPL-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.html)
 [![PayPal Donate](https://img.shields.io/badge/donate-PayPal.me-ff69b4.svg)](https://www.paypal.me/pixelbyaj)
 [![jsDelivr Hits](https://data.jsdelivr.com/v1/package/npm/sitepage.js/badge/day?style=rounded)](https://www.jsdelivr.com/package/npm/sitepage.js)
 [![jsDelivr Hits](https://data.jsdelivr.com/v1/package/npm/sitepage.js/badge?style=rounded)](https://www.jsdelivr.com/package/npm/sitepage.js)
@@ -34,7 +34,7 @@ It also provides touch support for mobile phones, tablets and touch screen compu
 ## License
 
 ### Open source license
-If you are creating an open source application under a license compatible with the [MIT](https://mit-license.org/), you may use sitePage under the terms of the MIT.
+If you are creating an open source application under a license compatible with the [GPL](https://www.gnu.org/licenses/gpl-3.0.html), you may use sitePage under the terms of the GPL.
 
 **The credit comments in the JavaScript and CSS files should be kept intact** (even after combination or minification)
 
@@ -62,8 +62,8 @@ npm install sitepage.js
 ```
 ### Optional use of CDN
 ```html
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sitepage.js@3.0.3/dist/sitepage.min.js"></script>
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/sitepage.js@3.0.3/dist/style/sitepage.min.css" />
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sitepage.js@3.1.0/dist/sitepage.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/sitepage.js@3.1.0/dist/style/sitepage.min.css" />
 ```
 ### Required HTML structure
 Start your HTML document with the compulsory [HTML DOCTYPE declaration](http://www.corelangs.com/html/introduction/doctype.html) on the 1st line of your HTML code. You might have troubles with sections heights otherwise. The examples provided use HTML 5 doctype `<!DOCTYPE html>`.
@@ -114,6 +114,7 @@ new SitePage("sitePage", {
         navigation: 'horizontal',//horizontal|vertical
         sameurl: true,//true|false
         hamburger:true,//true|{lineColor:"",backgroundColor:"",closeOnNavigation:true}
+        pageIndicator:true,//true|false; Default is true
         //transition
         easing: "ease",//ease|ease-in|ease-out|ease-in-out|cubic-bezier(n,n,n,n)
         transitionSpeed: 1000,//speed in ms
