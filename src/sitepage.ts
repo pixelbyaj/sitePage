@@ -81,7 +81,7 @@ class SitePage {
         if (_options.navigation.toLowerCase() === "horizontal") {
             scrollWay = Scroll.Horizontal;
             body.classList.add("horizontal");
-        }else{
+        } else {
             body.classList.add("vertical");
         }
 
@@ -142,14 +142,14 @@ class SitePage {
 
                 return navSpan;
             },
-            setPageIndicator: (classList: string[], anchor: string, anchorId: string): HTMLElement => {
-               
+            setPageIndicator: (anchor: string, anchorId: string): HTMLElement => {
+
                 let navLi = $.createElement("li");
                 navLi.setAttribute("title", anchor);
 
                 let navA = $.createElement("a");
                 navA.setAttribute("id", `pg_${anchorId}`);
-                navA.classList.add(...classList);
+
                 navA.removeEventListener("click", eventListners.navigationClick);
                 navA.setAttribute("href", "javascript:void(0)");
                 navA.setAttribute("data-href", anchorId);
@@ -385,7 +385,7 @@ class SitePage {
                         location.hash = "#" + sectionId;
                     }
                 }
-               
+
                 $.querySelector("a.active")?.classList.remove("active");
                 $.querySelector(`#pg_${sectionId}`)?.classList.add("active");
             }
@@ -521,11 +521,15 @@ class SitePage {
                 }
             },
             navigationClick: (e: MouseEvent) => {
-                var sectionId = (e.currentTarget as HTMLElement).getAttribute("data-href");
+                const targetEle = (e.currentTarget as HTMLElement);
+                var sectionId = targetEle.getAttribute("data-href");
 
                 scrollEvents.scrollToSection(sectionId);
-                if ((_options.hamburger as boolean) !== false && (_options.hamburger as IHamburger)?.closeOnNavigation !== false) {
-                    eventListners.onHamburgerMenuClick();
+                const pgId = targetEle.getAttribute("id");
+                if (`pg_${sectionId}` !== pgId) {
+                    if ((_options.hamburger as boolean) !== false && (_options.hamburger as IHamburger)?.closeOnNavigation !== false) {
+                        eventListners.onHamburgerMenuClick();
+                    }
                 }
             },
             onHamburgerMenuClick: () => {
@@ -559,12 +563,12 @@ class SitePage {
                 }
                 let pageNavDiv: HTMLElement;
                 let pageIndicatorUl: HTMLElement;
-                if(_options.pageIndicator){
+                if (_options.pageIndicator) {
                     pageNavDiv = $.createElement("div");
-                    pageNavDiv.classList.add(...["sp-pg-nav","sp-pg-right"]);
+                    pageNavDiv.classList.add(...["sp-pg-nav", "sp-pg-right"]);
                     pageIndicatorUl = $.createElement("ul");
                 }
-                   
+
                 //Iterate Sections
                 _options.sections.forEach((section: ISection, index: number) => {
                     let anchorId = "page" + (index + 1);
@@ -583,7 +587,7 @@ class SitePage {
                     _sectionIds.push(anchorId);
                     if (_options.anchors || _options.hamburger) {
                         //navigation
-                        var anchorClass = ["nav-link", "text-nowrap"];
+                        let anchorClass = ["nav-link", "text-nowrap"];
                         if (section.anchorClass) {
                             if (typeof (section.anchorClass) === 'string') {
                                 section.anchorClass = section.anchorClass.split(',');
@@ -594,8 +598,8 @@ class SitePage {
                         navUl.appendChild(navLi);
                     }
                     // Add PageIndicator
-                    const pageIndicatorLi = htmlUtility.setPageIndicator(anchorClass,section.anchor, anchorId);
-                    if(pageIndicatorUl){
+                    const pageIndicatorLi = htmlUtility.setPageIndicator(section.anchor, anchorId);
+                    if (pageIndicatorUl) {
                         pageIndicatorUl.appendChild(pageIndicatorLi);
                     }
 
@@ -603,7 +607,7 @@ class SitePage {
                         htmlUtility.setBackgroundColor(sectionEle, section.backgroundColor);
                     }
                 });
-                if(pageNavDiv){
+                if (pageNavDiv) {
                     pageNavDiv.appendChild(pageIndicatorUl);
                 }
                 if (_options.navigation.toLowerCase() === "horizontal") {
@@ -622,7 +626,7 @@ class SitePage {
                         activeId = active.getAttribute("data-anchor");
                     }
                 }
-                if(pageNavDiv){
+                if (pageNavDiv) {
                     $.querySelector("body")?.insertBefore(pageNavDiv, $e);
                 }
                 scrollEvents.scrollToSection(activeId);
@@ -630,7 +634,7 @@ class SitePage {
                 $.querySelector(".nav-link[href='#" + activeId + "']")?.classList.add("active");
                 utilityMethod.addEventListeners($e);
                 utilityMethod.addToPublicAPI();
-               
+
             },
             addEventListeners: ($element: HTMLElement) => {
                 //keyboard navigation event

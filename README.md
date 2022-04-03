@@ -27,8 +27,7 @@ Suggestion are more than welcome, not only for feature requests but also for cod
 Let's make this a great library to make people's lives easier!
 
 ## Compatibility
-sitepage is fully functional on all modern browsers, as well as some old ones such as Internet Explorer 9, Opera 12, etc.
-It works with browsers with CSS3 support and with the ones which don't have it, making it ideal for old browsers compatibility.
+sitepage is fully functional on all modern browsers.
 It also provides touch support for mobile phones, tablets and touch screen computers.
 
 ## License
@@ -148,7 +147,7 @@ new SitePage("sitePage", {
  verticalAlignMiddle: false,
 ```
 #### Navigation
-* anchors: Set true|false. If you require a menu set it as a true (By defaul it is true) and if not require set it as false.
+* anchors: Set true|false. If you require a menu set it as a true (By defaul it is false) and if not require set it as false.
 * sameurl: Set true|false. While navigating the url will change
         navigation: 'vertical',//horizontal|vertical
         hamburger: {
@@ -156,7 +155,7 @@ new SitePage("sitePage", {
             backgroundColor: "",//background color when hamburger open,
             closeOnNavigation:true//default true
         },
-* Hamburger: Set true or below properties
+* Hamburger: Set true or below properties If you require a menu set it as by defaul it is false
     {
         lineColor:"",
         backgroundColor:"",

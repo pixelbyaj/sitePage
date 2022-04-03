@@ -70,8 +70,9 @@ document.ready(function() {
                 backgroundColor: "#fec401"
             }
         ],
-        navigation: "horizontal",
+        
         anchors: false, //default true
+        hamburger: true,
         pageIndicator:true,
         easing: "ease",
         sameurl: false,
