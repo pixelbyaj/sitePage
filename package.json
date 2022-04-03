@@ -7,7 +7,7 @@
     "public": true,
     "scripts": {
         "start": "grunt build",
-        "deploy": "npm publish --access=public"
+        "deploy": "grunt build && npm publish --access=public"
     },
     "repository": {
         "type": "git",
