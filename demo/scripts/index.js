@@ -32,7 +32,7 @@ var sitePage;
 document.ready(function() {
 
     sitePage = new SitePage("sitePage", {
-        brandName: "",
+        brandName: "SitePage",
         backgroundColor: "",
         verticalAlignMiddle: true, //true||false
         autoScrolling:true,

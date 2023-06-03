@@ -1,7 +1,7 @@
 {
     "name": "sitepage.js",
     "buildName": "sitepage",
-    "version": "3.1.1",
+    "version": "3.1.2",
     "description": "Create beautiful full page scrolling website using JSON",
     "main": "dist/sitepage.min.js,dist/style/sitepage.min.css",
     "public": true,

@@ -162,7 +162,6 @@ body {
     left: 0;
     top: 0;
     background: rgb(55, 60, 86, 0.9);
-    border-radius: 0 34% 34% 0;
     transition: 0.3s ease;
 }
 
@@ -188,6 +187,7 @@ body {
 
 .sp-hb-change {
     display: block;
+    max-width: 250px;
 }
 
 .sp-hb-navbar-brand,

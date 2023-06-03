@@ -128,19 +128,23 @@ class SitePage {
                 element.style.backgroundColor = color;
             },
             setBrandName: (classList: string[], brandName: string, brandLogoUrl: string): HTMLElement => {
-                let navSpan = $.createElement("span");
-                navSpan.classList.add(...classList);
+                let navA = $.createElement("a");
+                navA.setAttribute("href","javascript:void(0)");
+                navA.setAttribute("data-href","page1");
+                navA.addEventListener("click", eventListners.navigationClick);
+
+                navA.classList.add(...classList);
                 let brandNode: any;
                 if (brandName) {
                     brandNode = $.createTextNode(brandName);
-                    navSpan.appendChild(brandNode);
+                    navA.appendChild(brandNode);
                 } else {
                     brandNode = $.createElement("img");
                     brandNode.setAttribute("src", brandLogoUrl);
-                    navSpan.appendChild(brandNode);
+                    navA.appendChild(brandNode);
                 }
 
-                return navSpan;
+                return navA;
             },
             setPageIndicator: (anchor: string, anchorId: string): HTMLElement => {
 
@@ -527,7 +531,8 @@ class SitePage {
                 scrollEvents.scrollToSection(sectionId);
                 const pgId = targetEle.getAttribute("id");
                 if (`pg_${sectionId}` !== pgId) {
-                    if ((_options.hamburger as boolean) !== false && (_options.hamburger as IHamburger)?.closeOnNavigation !== false) {
+                    const isOpen = $.querySelector(".sp-hb-menu").classList.contains("sp-hb-change");
+                    if (isOpen && (_options.hamburger as boolean) !== false && (_options.hamburger as IHamburger)?.closeOnNavigation !== false) {
                         eventListners.onHamburgerMenuClick();
                     }
                 }
