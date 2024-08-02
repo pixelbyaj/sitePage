@@ -24,6 +24,7 @@ export interface IOptions {
     pageTransitionEnd?: (currentPage: HTMLElement) => void,
 }
 export interface ISection {
+    pageId:string | undefined;
     active:boolean,
     anchor: string,
     template:string,

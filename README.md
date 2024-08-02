@@ -84,6 +84,9 @@ You can see a fully working example of the HTML structure in the [`index.html` f
 #### Initialization with Vanilla Javascript
 All you need to do is call sitepage before the closing `</body>` tag.
 
+**Note: New property pageId in sections added in the version 3.1.4**
+**This will help url to make more meaningful**
+
 ```javascript
 new SitePage("sitePage", {
         //brandname
@@ -93,16 +96,19 @@ new SitePage("sitePage", {
         verticalAlignMiddle: true, // By default it would be true	
         //sections
         sections: [{
+                pageId:"home",
                 anchor: "Home",
                 template: "<h1>Home</h1>",
                 backgroundColor: "#45b4f5",
             },
             {
+                pageId:"feature",
                 anchor: "Features",
                 templateId: "feature",
                 backgroundColor: "#fc6c7c"
             },
             {
+                pageId:"contact",
                 anchor: "Contact Us",
                 template: "<h1>Contact Us</h1>",
                 backgroundColor: "#1bbc9b"

@@ -37,6 +37,7 @@ document.ready(function() {
         verticalAlignMiddle: true, //true||false
         autoScrolling:true,
         sections: [{
+                pageId:'home',
                 anchor: "Home",
                 //anchorClass: [],
                 templateId: "home-template",
@@ -45,26 +46,31 @@ document.ready(function() {
                 sectionClass: 'text-right'
             },
             {
+                pageId:'skills',
                 anchor: "Skills",
                 templateUrl: "./views/skills.html",
                 backgroundColor: "#fec401"
             },
             {
+                pageId:'projects',
                 anchor: "Projects",
                 template: "<h1>Projects</h1>",
                 backgroundColor: "#fc6c7c"
             },
             {
+                pageId:'open_source',
                 anchor: "Open Source",
                 templateUrl: "./views/opensource.html",
                 backgroundColor: "#ff5f45"
             },
             {
+                pageId:'achivements',
                 anchor: "Achievements",
                 templateUrl: "./views/achievements.html",
                 backgroundColor: "#fec401"
             },
             {
+                pageId:'contactus',
                 anchor: "Contact Us",
                 template: "<h2>Contact Us</h2>",
                 backgroundColor: "#fec401"

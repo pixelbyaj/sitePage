@@ -576,7 +576,7 @@ class SitePage {
 
                 //Iterate Sections
                 _options.sections.forEach((section: ISection, index: number) => {
-                    let anchorId = "page" + (index + 1);
+                    let anchorId = section.pageId ?? "page" + (index + 1);
 
                     let sectionEle = htmlUtility.setSection(section, index + 1);
                     sectionEle.setAttribute("data-anchor", anchorId);
